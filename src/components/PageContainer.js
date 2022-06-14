@@ -5,13 +5,27 @@ import PageTitle from './PageTitle';
 
 function PageContainer({ title, children }) {
   return (
-    <>
-      <PageTitle>{title}</PageTitle>
-      <Container>{children}</Container>
-    </>
+    <Section>
+      <PageTitle>{ title }</PageTitle>
+      <Container>{ children }</Container>
+    </Section>
   );
 }
 
 export default PageContainer;
 
-const Container = styled.div``;
+const Section = styled.section`
+  @media (min-width: 620px){
+    margin: 0px auto 0px auto;
+    display: flex;
+    flex-direction: column;
+    width: 620px;
+  }
+`
+
+const Container = styled.div`
+  @media (min-width: 620px){
+    margin: 43px auto 0px auto;
+  }
+`;
+
