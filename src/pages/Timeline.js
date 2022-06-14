@@ -1,11 +1,12 @@
-import React from 'react';
-
 import PageContainer from './../components/PageContainer';
+import CreatePost from './../components/CreatePost';
 
 function Timeline() {
   return (
     <>
-      <PageContainer title={`timeline`}></PageContainer>
+      <PageContainer title={"timeline"}>
+        <CreatePost />
+      </PageContainer>
     </>
   );
 }
