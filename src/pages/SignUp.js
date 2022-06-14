@@ -136,6 +136,31 @@ const Container = styled.div`
     text-decoration-line: underline;
     color: #ffffff;
   }
+
+  @media only screen and (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+
+    form {
+      margin-top: 40px;
+      width: 100%;
+    }
+
+    input {
+      width: 330px;
+      height: 55px;
+    }
+
+    button {
+      width: 330px;
+      height: 55px;
+    }
+
+    form p {
+      font-size: 17px;
+      line-height: 20px;
+    }
+  }
 `;
 
 const Linkr = styled.div`
@@ -165,5 +190,22 @@ const Linkr = styled.div`
     font-size: 43px;
     line-height: 64px;
     color: #ffffff;
+  }
+
+  @media only screen and (max-width: 800px) {
+    justify-content: start;
+    height: fit-content;
+    width: 100vw;
+    padding-left: 0;
+    text-align: center;
+    padding-bottom: 27px;
+    h1 {
+      font-size: 76px;
+      margin-bottom: -25px;
+    }
+    p {
+      font-size: 23px;
+      line-height: 32px;
+    }
   }
 `;
