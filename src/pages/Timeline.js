@@ -1,13 +1,13 @@
-import PageContainer from "../components/PageContainer";
+import React from 'react';
 
-function Timeline(){
-    return(
-        <>
-            <PageContainer title={`timeline`}>
-                
-            </PageContainer>
-        </>
-    );
+import PageContainer from './../components/PageContainer';
+
+function Timeline() {
+  return (
+    <>
+      <PageContainer title={`timeline`}></PageContainer>
+    </>
+  );
 }
 
 export default Timeline;
