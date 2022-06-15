@@ -1,21 +1,29 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import axios from 'axios';
+
+import * as api from './../services/api/posts';
 
 function CreatePost(){
     const [post, setPost] = useState({url:"", description:""});
     const [loading, setLoading] = useState(false);
 
+    const token = 'fe24d84cacf36d73051fb806587368a1';
+    const config = {
+        headers: {Authorization: `Bearer ${token}`} 
+    };
+
     function publishPost(e){
         e.preventDefault();
         setLoading(true);
-        const promise = axios.post('',);
-        promise.then((response) => {
+        api.create(
+            post,
+            config
+        ).then((response) => {
             setLoading(false);
             setPost({url:"", description:""});
             console.log(response);
-        })
-        promise.catch((e) => {
+        }).catch((e) => {
+            setLoading(false);
             alert("Houve um erro ao publicar seu link");
             console.log(e.message);
         })
