@@ -1,14 +1,51 @@
 import styled from 'styled-components';
+import { useState } from 'react';
+import axios from 'axios';
 
 function CreatePost(){
+    const [post, setPost] = useState({url:"", description:""});
+    const [loading, setLoading] = useState(false);
+
+    function publishPost(e){
+        e.preventDefault();
+        setLoading(true);
+        const promise = axios.post('',);
+        promise.then((response) => {
+            setLoading(false);
+            setPost({url:"", description:""});
+            console.log(response);
+        })
+        promise.catch((e) => {
+            alert("Houve um erro ao publicar seu link");
+            console.log(e.message);
+        })
+    }
+
     return(
         <NewPost>
-            <p>What are you going to share today?</p>
-            <form>
-                <input  placeholder="http://..." />
-                <input className='description' placeholder="Awesome article about #javascript" />
-                <button>Publish</button>
-            </form>
+            <p className='image'>aaaaaa</p>
+            <div>
+                <p>What are you going to share today?</p>
+                <form onSubmit={publishPost}>
+                    <input  
+                        placeholder="http://..." 
+                        onChange={(e) => setPost({...post, url: e.target.value})}
+                        value={post.url}
+                        required
+                        disabled={loading}
+                        />
+                    <input 
+                        className='description' 
+                        placeholder="Awesome article about #javascript" 
+                        onChange={(e) => setPost({...post, description: e.target.value})}
+                        value={post.description}
+                        disabled={loading}
+                        />
+                    <button disabled={loading} type='submit'>
+                        { loading ? 'Publishing...' : 'Publish' }
+                    </button>
+                </form>
+            </div>
         </NewPost>
     );
 }
@@ -23,44 +60,53 @@ const NewPost = styled.section`
     background-color: #ffffff;
     padding: 15px;
     position: relative;
-    p{
-        font-size: 17px;
-        font-weight: 400;
-        color: #707070;
-        padding-bottom: 10px;
+    .image{
+        display: none;
     }
-    form{
+    div{
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
         width: 100%;
-        input{
-            margin: 5px auto 0px auto;
-            width: 100%;
-            height: 30px;
-            border-radius: 5px;
-            border: none;
-            background-color: #EFEFEF;
-            padding: 6px;
-            font-family: 'Lato', sans-serif;
+        p{
+            font-size: 17px;
+            font-weight: 400;
+            color: #707070;
+            padding-bottom: 10px;
         }
-        .description{
-                height: 47px;
+        form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            input{
+                margin: 5px auto 0px auto;
+                width: 100%;
+                height: 30px;
+                border-radius: 5px;
+                border: none;
+                background-color: #EFEFEF;
+                padding: 6px;
+                font-family: 'Lato', sans-serif;
             }
-        button{
-            position: absolute;
-            right: 15px;
-            bottom: 8px;
-            height: 22px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: none;
-            width: 112px;
-            background-color: #1877F2;
-            color: #ffffff;
-            font-weight: 700;
-            font-family: 'Lato', sans-serif;
+            .description{
+                    height: 47px;
+                }
+            button{
+                position: absolute;
+                right: 15px;
+                bottom: 8px;
+                height: 22px;
+                margin-top: 5px;
+                border-radius: 5px;
+                border: none;
+                width: 112px;
+                background-color: #1877F2;
+                color: #ffffff;
+                font-weight: 700;
+                font-family: 'Lato', sans-serif;
+            }
         }
     }
     @media (min-width: 620px){
@@ -68,18 +114,34 @@ const NewPost = styled.section`
       height: 209px;
       border-radius: 16px;
       padding: 25px;
+      flex-direction: row;
       align-items: baseline;
-      p{
-        font-size: 20px;
+      .image{
+        display: inline;
+        border: 1px solid #000000;
+        border-radius: 100px;
+        background-color: #000000;
+        width: 50px;
+        height: 50px;
+        margin-right: 16px;
       }
-      form{
-        .description{
-            height: 66px;
+      div{
+        align-items: baseline;
+        p{
+            font-size: 20px;
         }
-        button{
-            height: 31px;
-            right: 25px;
-            bottom: 15px; 
+        form{
+            input{
+                width: 502px;
+            }
+            .description{
+                height: 66px;
+            }
+            button{
+                height: 31px;
+                right: 25px;
+                bottom: 15px; 
+            }
         }
       }
     }
