@@ -1,28 +1,24 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
-import * as api from './../services/api/posts';
+import requestPostsApi from './../services/api/posts';
 
 function CreatePost(){
     const [post, setPost] = useState({url:"", description:""});
     const [loading, setLoading] = useState(false);
 
-    const token = 'fe24d84cacf36d73051fb806587368a1';
-    const config = {
-        headers: {Authorization: `Bearer ${token}`} 
-    };
-
     function publishPost(e){
         e.preventDefault();
         setLoading(true);
-        api.create(
-            post,
-            config
-        ).then((response) => {
+        const promise = requestPostsApi.create(
+            post
+        )
+        promise.then((response) => {
             setLoading(false);
             setPost({url:"", description:""});
             console.log(response);
-        }).catch((e) => {
+        })
+        promise.catch((e) => {
             setLoading(false);
             alert("Houve um erro ao publicar seu link");
             console.log(e.message);
