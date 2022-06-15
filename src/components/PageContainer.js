@@ -1,14 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Header from './Header';
 import PageTitle from './PageTitle';
 
 function PageContainer({ title, children }) {
   return (
-    <Section>
-      <PageTitle>{ title }</PageTitle>
-      <Container>{ children }</Container>
-    </Section>
+    <>
+      <Header />
+      <Section>
+        <PageTitle>{ title }</PageTitle>
+        <Container>{ children }</Container>
+      </Section>
+    </>
   );
 }
 
