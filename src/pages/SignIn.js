@@ -23,7 +23,7 @@ function SignUp() {
     const promise = axios.post(`${URL}/signin`, userSignIn);
     promise.then((response) => {
       setSignInStatus(false);
-      localStorage.setItem('token', response.data)
+      localStorage.setItem('token', response.data.token)
       navigate("/timeline");
     });
     promise.catch((e) => {
