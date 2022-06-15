@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import requestAuthApi from "./../services/api/auth";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -21,18 +21,18 @@ function SignUp() {
   function handleSubmit(e) {
     e.preventDefault();
     setSignUpStatus(true);
-    const URL = "http://localhost:5000";
-    const promise = axios.post(`${URL}/signup`, userSignUp);
-    promise.then((response) => {
-      alert("Cadastro Realizado");
-      setSignUpStatus(false);
-      navigate("/");
-    });
-    promise.catch((e) => {
-      alert(e.response.data);
-      console.log(e.response.data);
-      setSignUpStatus(false);
-    });
+    requestAuthApi
+      .signUp(userSignUp)
+      .then((response) => {
+        alert("Cadastro Realizado");
+        setSignUpStatus(false);
+        navigate("/");
+      })
+      .catch((e) => {
+        alert(e.response.data);
+        console.log(e.response.data);
+        setSignUpStatus(false);
+      });
   }
 
   return (
@@ -99,7 +99,7 @@ const Container = styled.div`
   }
 
   input {
-    width: 429px;
+    width: 80%;
     height: 65px;
     background: #ffffff;
     border-radius: 6px;
@@ -114,7 +114,7 @@ const Container = styled.div`
   }
 
   button {
-    width: 429px;
+    width: 80%;
     height: 65px;
     background: #1877f2;
     border-radius: 6px;
