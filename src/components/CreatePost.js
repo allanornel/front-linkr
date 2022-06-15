@@ -7,17 +7,11 @@ function CreatePost(){
     const [post, setPost] = useState({url:"", description:""});
     const [loading, setLoading] = useState(false);
 
-    const token = 'fe24d84cacf36d73051fb806587368a1';
-    const config = {
-        headers: {Authorization: `Bearer ${token}`} 
-    };
-
     function publishPost(e){
         e.preventDefault();
         setLoading(true);
         const promise = requestPostsApi.create(
-            post,
-            config
+            post
         )
         promise.then((response) => {
             setLoading(false);
