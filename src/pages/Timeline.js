@@ -1,14 +1,16 @@
-import PageContainer from './../components/PageContainer';
-import CreatePost from './../components/CreatePost';
+import PageContainer from "./../components/PageContainer";
+import CreatePost from "./../components/CreatePost";
+import useAuth from "../hooks/useAuth";
 
 function Timeline() {
-  return (
-    <>
-      <PageContainer title={"timeline"}>
-        <CreatePost />
-      </PageContainer>
-    </>
-  );
+	const { token } = useAuth();
+	return (
+		<>
+			<PageContainer title={"timeline"}>
+				<CreatePost />
+			</PageContainer>
+		</>
+	);
 }
 
 export default Timeline;
