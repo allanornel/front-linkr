@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
-import * as api from './../services/api/posts';
+import requestPostsApi from './../services/api/posts';
 
 function CreatePost(){
     const [post, setPost] = useState({url:"", description:""});
@@ -15,14 +15,16 @@ function CreatePost(){
     function publishPost(e){
         e.preventDefault();
         setLoading(true);
-        api.create(
+        const promise = requestPostsApi.create(
             post,
             config
-        ).then((response) => {
+        )
+        promise.then((response) => {
             setLoading(false);
             setPost({url:"", description:""});
             console.log(response);
-        }).catch((e) => {
+        })
+        promise.catch((e) => {
             setLoading(false);
             alert("Houve um erro ao publicar seu link");
             console.log(e.message);

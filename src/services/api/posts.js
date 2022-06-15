@@ -1,7 +1,15 @@
-import api from './api';
+import axios from 'axios';
+import URL from './api.js';
+ 
 
-export function create (post, config) {
-    return api.post('/post/create', {
+function create (post, config) {
+    return axios.post(`${URL}/post/create`, {
         post, config
     });
 }
+
+const requestPostsApi = {
+    create
+}
+
+export default requestPostsApi;
