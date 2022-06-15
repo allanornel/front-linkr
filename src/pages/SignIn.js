@@ -23,6 +23,7 @@ function SignUp() {
     const promise = axios.post(`${URL}/signin`, userSignIn);
     promise.then((response) => {
       setSignInStatus(false);
+      localStorage.setItem('token', response.data)
       navigate("/timeline");
     });
     promise.catch((e) => {
@@ -59,7 +60,7 @@ function SignUp() {
             disabled={signInStatus}
           />
           <button disabled={signInStatus}>Log In</button>
-          <p onClick={() => navigate("/")}>First time? Create an account!</p>
+          <p onClick={() => navigate("/signup")}>First time? Create an account!</p>
         </form>
       </Container>
     </>
