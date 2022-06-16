@@ -12,8 +12,12 @@ function create (post) {
     });
 }
 
+function posts () {
+    return axios.get(`${URL}/timeline`, config );
+}
+
 const requestPostsApi = {
-    create
+    create, posts
 }
 
 export default requestPostsApi;
