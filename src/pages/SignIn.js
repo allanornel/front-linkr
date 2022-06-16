@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import requestAuthApi from "../services/api/auth.js";
 import useAuth from "../hooks/useAuth";
 
-function SignUp() {
+function SignIn() {
 	const { signIn } = useAuth();
+
 	const navigate = useNavigate();
 	const [userSignIn, setSignIn] = useState({
 		email: "",
@@ -24,8 +25,8 @@ function SignUp() {
 		const promise = requestAuthApi.signIn(userSignIn);
 		promise.then((response) => {
 			setSignInStatus(false);
-			signIn(response.data.token);
-			// localStorage.setItem("token", response.data.token);
+			console.log(response.data);
+			signIn(response.data.token, response.data.picture);
 			navigate("/timeline");
 		});
 		promise.catch((e) => {
@@ -71,7 +72,7 @@ function SignUp() {
 	);
 }
 
-export default SignUp;
+export default SignIn;
 
 const Container = styled.div`
 	display: flex;
