@@ -6,7 +6,7 @@ import requestPostsApi from './../services/api/posts';
 
 function CreatePost(){
     const [post, setPost] = useState({url:"", description:""});
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const { token, image } = useAuth();
     const config = {
