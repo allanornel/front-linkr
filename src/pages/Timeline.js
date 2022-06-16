@@ -13,15 +13,16 @@ function Timeline() {
   const user = {image: "https://upload.wikimedia.org/wikipedia/commons/a/af/Bananas_%28Alabama_Extension%29.jpg", username: "test"};
 
   useEffect(() => {
+    console.log("teste")
     const promise = requestPostsApi.posts();
     promise.then((response) => {
       setData(response.data);
       setLoading(false);
     })
     promise.catch((error) => {
-        setLoading(false);
-        setError(true);
-        console.log(error.message);
+      setError(true);
+      setLoading(false);
+      console.log(error.message);
     })
   }, [])
 
@@ -29,9 +30,9 @@ function Timeline() {
     <>
       <PageContainer title={"timeline"}>
         <CreatePost />
-        {loading ? <p>Loading...</p> : error ? <p>An error occured while trying to fetch the posts, please refresh the page</p>
+        {loading ? <h4>Loading...</h4> : error ? <h4>An error occured while trying to fetch the posts, please refresh the page</h4>
         : data ? data.map(post => ( <Post user={user} data={post} /> )) : 
-        <p>There are no posts yet</p>}
+        <h4>There are no posts yet</h4>}
       </PageContainer>
     </>
   );

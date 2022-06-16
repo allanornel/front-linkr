@@ -15,6 +15,11 @@ function PageContainer({ title, children }) {
 export default PageContainer;
 
 const Section = styled.section`
+  h4{
+    font-size: 20px;
+    margin-top: 100px;
+    color: #ffffff;
+  }
   @media (min-width: 620px){
     margin: 0px auto 0px auto;
     display: flex;

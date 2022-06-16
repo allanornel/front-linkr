@@ -1,13 +1,14 @@
 import styled from 'styled-components';
+import { FaRegHeart } from 'react-icons/fa';
 
 export default function Post(props) {
     const { user, data } = props;
 
     return (
         <PostContainer>
-            <img className='image' src={user.image} />
+            <img className='profile-img' src={user.image} />
             <Likes>
-                <ion-icon name="heart-outline"></ion-icon>
+                <FaRegHeart />
                 <span>{data.likesTotal} likes</span>
             </Likes>
             <div>
@@ -37,14 +38,13 @@ const PostContainer = styled.div`
     position: relative;
     border-radius: 16px;
 
-    .image{
+    .profile-img{
         display: inline;
         border: 1px solid #000000;
         border-radius: 100px;
         width: 50px;
         height: 50px;
         margin-right: 16px;
-        padding: 20px;
     }
     
     div{
@@ -122,7 +122,7 @@ const Likes = styled.div`
     left: 32px;
     font-size: 20px;
 
-    ion-icon{
+    FaRegHeart{
         margin-left: 6px;
     }
 
