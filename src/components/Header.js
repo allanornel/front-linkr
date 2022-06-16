@@ -6,13 +6,15 @@ import { IoIosArrowDown } from 'react-icons/io';
 function Header(){
     const [toggle, setToggle] = useState(false);
 
+    const imagem = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUm1vdeyyg52fhFNeKzgZqpBGpCuZVNwzvzQ&usqp=CAU';
+
     return(
         <>
             <Container>
                 <h1>linkr</h1>
                 <div>
                     <IoIosArrowDown onClick={() => setToggle(!toggle)} color='#FFFFFF' size={18} strokeWidth="5"/>
-                    <p>imagem</p>
+                    <img src={imagem} alt='userImage'/>
                 </div>
             </Container>
             { toggle ? (
@@ -44,9 +46,12 @@ const Container = styled.header`
     }
     div{
         display: flex;
-        p{
-            color: #FFFFFF;
+        align-items: center;
+        img{
+            width: 53px;
+            height: 53px;
             margin-left: 16px;
+            border-radius: 50px;
         }
     }
 `
