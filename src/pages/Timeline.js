@@ -34,13 +34,15 @@ function Timeline() {
       console.log(error.message);
     })
   }, [])
+  console.log(data)
+  console.log(token)
 
   return (
     <>
       <PageContainer title={"timeline"}>
         <CreatePost />
         {loading ? <h4>Loading...</h4> : error ? <h4>An error occured while trying to fetch the posts, please refresh the page</h4>
-        : data ? data.map(post => ( <Post user={user} data={post} /> )) : 
+        : data.length > 1 ? data.map(post => ( <Post user={user} data={post} /> )) : 
         <h4>There are no posts yet</h4>}
       </PageContainer>
     </>
