@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 
 import { IoIosArrowDown } from 'react-icons/io';
+import { IoIosArrowUp } from 'react-icons/io';
 
-function Header(){
-    const [toggle, setToggle] = useState(false);
+function Header(props){
+    const { toggle, setToggle } = props;
 
     const imagem = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUm1vdeyyg52fhFNeKzgZqpBGpCuZVNwzvzQ&usqp=CAU';
 
@@ -12,13 +12,17 @@ function Header(){
         <>
             <Container>
                 <h1>linkr</h1>
-                <div>
-                    <IoIosArrowDown onClick={() => setToggle(!toggle)} color='#FFFFFF' size={18} strokeWidth="5"/>
+                <div onClick={() => setToggle(!toggle)}>
+                    { toggle ? 
+                        <IoIosArrowUp color='#FFFFFF' size={18} strokeWidth="5"/>
+                         :
+                        <IoIosArrowDown color='#FFFFFF' size={18} strokeWidth="5"/>
+                    }
                     <img src={imagem} alt='userImage'/>
                 </div>
             </Container>
             { toggle ? (
-                    <Bar>
+                    <Bar onClick={() => setToggle(false)}>
                         <p>Logout</p>
                     </Bar>
                 ) 
