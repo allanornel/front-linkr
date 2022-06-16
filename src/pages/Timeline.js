@@ -12,7 +12,6 @@ function Timeline() {
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
   const { token } = useAuth();
-  console.log({token});
   const navigate = useNavigate();
   //user test DELETE
   const user = {image: "https://upload.wikimedia.org/wikipedia/commons/a/af/Bananas_%28Alabama_Extension%29.jpg", username: "test"};
@@ -24,7 +23,7 @@ function Timeline() {
 	}, []);
 
   useEffect(() => {
-    const promise = requestPostsApi.posts();
+    const promise = requestPostsApi.posts(token);
     promise.then((response) => {
       setData(response.data);
       setLoading(false);
