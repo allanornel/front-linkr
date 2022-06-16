@@ -1,34 +1,39 @@
 import styled from "styled-components";
 import useAuth from "../hooks/useAuth";
-
+import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
-import { IoIosArrowUp } from 'react-icons/io';
+import { IoIosArrowUp } from "react-icons/io";
 
 function Header(props) {
 	const { signOut, image } = useAuth();
-	const {toggle, setToggle} = props;
+	const { toggle, setToggle } = props;
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		navigate("/");
+		signOut();
+	};
 
 	return (
 		<>
 			<Container>
 				<h1>linkr</h1>
 				<div onClick={() => setToggle(!toggle)}>
-            { toggle ? 
-                  <IoIosArrowUp color='#FFFFFF' size={18} strokeWidth="5"/>
-                   :
-                  <IoIosArrowDown color='#FFFFFF' size={18} strokeWidth="5"/>
-            }
-            <img src={image} alt='userImage'/>
-         </div>
+					{toggle ? (
+						<IoIosArrowUp color="#FFFFFF" size={18} strokeWidth="5" />
+					) : (
+						<IoIosArrowDown color="#FFFFFF" size={18} strokeWidth="5" />
+					)}
+					<img src={image} alt="userImage" />
+				</div>
 			</Container>
-			{toggle ? 
-        (
-          <Bar onClick={() => setToggle(false)}>
-            <p onClick={() => signOut()}>Logout</p>
-          </Bar>
-			  ) : 
-        ( <></> )
-       }
+			{toggle ? (
+				<Bar onClick={() => setToggle(false)}>
+					<p onClick={() => handleLogout()}>Logout</p>
+				</Bar>
+			) : (
+				<></>
+			)}
 		</>
 	);
 }
