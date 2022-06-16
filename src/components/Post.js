@@ -1,26 +1,25 @@
 import styled from 'styled-components';
 
 export default function Post(props) {
-    const { user } = props;
+    const { user, data } = props;
 
     return (
         <PostContainer>
-            <p className='image'></p>
+            <img className='image' src={user.image} />
             <Likes>
                 <ion-icon name="heart-outline"></ion-icon>
-                <span>10 likes</span>
+                <span>{data.likesTotal} likes</span>
             </Likes>
             <div>
-                <p>username</p>
-                <h1>testando texto do post <span>#hashtag</span></h1>
+                <p>{user.username}</p>
+                <h1>{data.description} <span>{data.hashtag}</span></h1>
                 <div className='link'>
                     <div className='text'>
-                        <p>Como aplicar material UI em um projeto React</p>
-                        <h1>Hey! I have moved this tutorial to my personal blog. 
-                            Same content, new location. Sorry about making you click through to another page.</h1>
-                        <a target="_blank" rel="noopener noreferrer" href="https://hub.driven.com.br/">Hub Driven</a>
+                        <p>{data.title}</p>
+                        <h1>{data.urlDescription}</h1>
+                        <a target="_blank" rel="noopener noreferrer" href={data.url}>{data.url}</a>
                     </div>
-                    <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png'/>
+                    <img src={data.image}/>
                 </div>
             </div>
         </PostContainer>
@@ -42,7 +41,6 @@ const PostContainer = styled.div`
         display: inline;
         border: 1px solid #000000;
         border-radius: 100px;
-        background-color: #000000;
         width: 50px;
         height: 50px;
         margin-right: 16px;
