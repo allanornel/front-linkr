@@ -7,7 +7,7 @@ function config(token) {
 }
 
 function getHashtags() {
-  return axios.get("/hashtags");
+  return axios.get(`${URL}/hashtags`);
 }
 
 const requestHashtagsApi = {
