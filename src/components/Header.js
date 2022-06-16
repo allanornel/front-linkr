@@ -1,34 +1,34 @@
 import styled from "styled-components";
-import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 
 import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from 'react-icons/io';
 
-function Header() {
+function Header(props) {
 	const { signOut, image } = useAuth();
-	const [toggle, setToggle] = useState(false);
+	const {toggle, setToggle} = props;
 
 	return (
 		<>
 			<Container>
 				<h1>linkr</h1>
-				<div>
-					<IoIosArrowDown
-						onClick={() => setToggle(!toggle)}
-						color="#FFFFFF"
-						size={18}
-						strokeWidth="5"
-					/>
-					<img src={image} alt="userImage" />
-				</div>
+				<div onClick={() => setToggle(!toggle)}>
+            { toggle ? 
+                  <IoIosArrowUp color='#FFFFFF' size={18} strokeWidth="5"/>
+                   :
+                  <IoIosArrowDown color='#FFFFFF' size={18} strokeWidth="5"/>
+            }
+            <img src={image} alt='userImage'/>
+         </div>
 			</Container>
-			{toggle ? (
-				<Bar>
-					<p onClick={() => signOut()}>Logout</p>
-				</Bar>
-			) : (
-				<></>
-			)}
+			{toggle ? 
+        (
+          <Bar onClick={() => setToggle(false)}>
+            <p onClick={() => signOut()}>Logout</p>
+          </Bar>
+			  ) : 
+        ( <></> )
+       }
 		</>
 	);
 }
