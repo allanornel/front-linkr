@@ -27,7 +27,6 @@ function SignIn() {
 			setSignInStatus(false);
 			console.log(response.data);
 			signIn(response.data.token, response.data.picture);
-			// localStorage.setItem("token", response.data.token);
 			navigate("/timeline");
 		});
 		promise.catch((e) => {
