@@ -4,13 +4,12 @@ import PageContainer from './../components/PageContainer';
 import CreatePost from './../components/CreatePost';
 import Post from './../components/Post';
 import requestPostsApi from './../services/api/posts';
-import useAuth from "../hooks/useAuth";
 
 function Timeline() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({});
   const [error, setError] = useState(false);
-  const { token } = useAuth();
+
   console.log({token});
   //user test DELETE
   const user = {image: "https://upload.wikimedia.org/wikipedia/commons/a/af/Bananas_%28Alabama_Extension%29.jpg", username: "test"};
