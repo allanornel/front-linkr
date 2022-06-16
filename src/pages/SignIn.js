@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import requestAuthApi from "../services/api/auth.js"
 
 function SignUp() {
   const navigate = useNavigate();
@@ -19,8 +19,7 @@ function SignUp() {
   function handleSubmit(e) {
     e.preventDefault();
     setSignInStatus(true);
-    const URL = "http://localhost:5000";
-    const promise = axios.post(`${URL}/signin`, userSignIn);
+    const promise =  requestAuthApi.signIn(userSignIn);
     promise.then((response) => {
       setSignInStatus(false);
       localStorage.setItem('token', response.data.token)
