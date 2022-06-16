@@ -6,13 +6,13 @@ export default function Post(props) {
 
     return (
         <PostContainer>
-            <img className='profile-img' src={user.image} />
+            <img className='profile-img' src={data.image} />
             <Likes>
                 <FaRegHeart />
                 <span>{data.likesTotal} likes</span>
             </Likes>
             <div>
-                <p>{user.username}</p>
+                <p>{data.username}</p>
                 <h1>{data.description} <span>{data.hashtag}</span></h1>
                 <div className='link'>
                     <div className='text'>
@@ -20,7 +20,7 @@ export default function Post(props) {
                         <h1>{data.urlDescription}</h1>
                         <a target="_blank" rel="noopener noreferrer" href={data.url}>{data.url}</a>
                     </div>
-                    <img src={data.image}/>
+                    <img src={data.postImage}/>
                 </div>
             </div>
         </PostContainer>
