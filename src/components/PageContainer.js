@@ -1,14 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useState } from 'react';
 
+import Header from './Header';
 import PageTitle from './PageTitle';
 
 function PageContainer({ title, children }) {
+  const [toggle, setToggle] = useState(false);
+
   return (
-    <Section>
-      <PageTitle>{ title }</PageTitle>
-      <Container>{ children }</Container>
-    </Section>
+    <>
+      <Header toggle={toggle} setToggle={setToggle}/>
+      <Section onClick={() => setToggle(false)}>
+        <PageTitle>{ title }</PageTitle>
+        <Container>{ children }</Container>
+      </Section>
+    </>
   );
 }
 
