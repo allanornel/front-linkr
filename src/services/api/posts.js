@@ -1,19 +1,17 @@
 import axios from 'axios';
+
 import URL from './api.js';
 
-const token = 'fe24d84cacf36d73051fb806587368a1';
-const config = {
-    headers: {Authorization: `Bearer ${token}`} 
-};
-
-function create (post) {
-    return axios.post(`${URL}/post/create`, {
-        post, config
-    });
+function config(token){
+    return { headers: { authorization : `Bearer ${token}` }}
 }
 
-function posts () {
-    return axios.get(`${URL}/timeline`, config );
+function create (post, config) {
+    return axios.post(`${URL}/post/create`, post, config);
+}
+
+function posts (token) {
+    return axios.get(`${URL}/timeline`, config(token) );
 }
 
 const requestPostsApi = {

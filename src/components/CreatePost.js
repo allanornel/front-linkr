@@ -1,20 +1,22 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
+import useAuth from "../hooks/useAuth";
 import requestPostsApi from './../services/api/posts';
 
 function CreatePost(){
     const [post, setPost] = useState({url:"", description:""});
     const [loading, setLoading] = useState(true);
 
-    const imagem = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUm1vdeyyg52fhFNeKzgZqpBGpCuZVNwzvzQ&usqp=CAU';
+    const { token, image } = useAuth();
+    const config = {
+        headers: {Authorization: `Bearer ${token}`} 
+    };
 
     function publishPost(e){
         e.preventDefault();
         setLoading(true);
-        const promise = requestPostsApi.create(
-            post
-        )
+        const promise = requestPostsApi.create(post, config);
         promise.then((response) => {
             setLoading(false);
             setPost({url:"", description:""});
@@ -29,7 +31,7 @@ function CreatePost(){
 
     return(
         <NewPost>
-            <img src={imagem} alt='userImage' />
+            <img src={image} alt='userImage' />
             <div>
                 <p>What are you going to share today?</p>
                 <form onSubmit={publishPost}>
