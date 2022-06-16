@@ -29,7 +29,7 @@ function CreatePost(){
 
     return(
         <NewPost>
-            <img src={imagem} />
+            <img src={imagem} alt='userImage' />
             <div>
                 <p>What are you going to share today?</p>
                 <form onSubmit={publishPost}>
