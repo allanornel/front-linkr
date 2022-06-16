@@ -1,14 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import requestAuthApi from "../services/api/auth.js";
 import useAuth from "../hooks/useAuth";
 
 function SignIn() {
-	const { signIn } = useAuth();
-
+	const { signIn, token } = useAuth();
 	const navigate = useNavigate();
+	useEffect(() => {
+		if (token) {
+			navigate("/timeline");
+		}
+	}, []);
+
 	const [userSignIn, setSignIn] = useState({
 		email: "",
 		password: "",
