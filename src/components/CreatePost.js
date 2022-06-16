@@ -7,6 +7,8 @@ function CreatePost(){
     const [post, setPost] = useState({url:"", description:""});
     const [loading, setLoading] = useState(false);
 
+    const imagem = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUm1vdeyyg52fhFNeKzgZqpBGpCuZVNwzvzQ&usqp=CAU';
+
     function publishPost(e){
         e.preventDefault();
         setLoading(true);
@@ -27,7 +29,7 @@ function CreatePost(){
 
     return(
         <NewPost>
-            <p className='image'>aaaaaa</p>
+            <img src={imagem} />
             <div>
                 <p>What are you going to share today?</p>
                 <form onSubmit={publishPost}>
@@ -64,7 +66,7 @@ const NewPost = styled.section`
     background-color: #ffffff;
     padding: 15px;
     position: relative;
-    .image{
+    img{
         display: none;
     }
     div{
@@ -119,12 +121,10 @@ const NewPost = styled.section`
       border-radius: 16px;
       padding: 25px;
       flex-direction: row;
-      align-items: baseline;
-      .image{
+      align-items: flex-start;
+      img{
         display: inline;
-        border: 1px solid #000000;
-        border-radius: 100px;
-        background-color: #000000;
+        border-radius: 50px;
         width: 50px;
         height: 50px;
         margin-right: 16px;
