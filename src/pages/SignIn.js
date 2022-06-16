@@ -2,37 +2,34 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import requestAuthApi from "./../services/api/auth";
+import requestAuthApi from "../services/api/auth.js"
 
 function SignUp() {
   const navigate = useNavigate();
-  const [userSignUp, setSignUp] = useState({
-    username: "",
+  const [userSignIn, setSignIn] = useState({
     email: "",
     password: "",
-    picture: "",
   });
-  const [signUpStatus, setSignUpStatus] = useState(false);
+  const [signInStatus, setSignInStatus] = useState(false);
 
   function handleInputs(e, property) {
-    setSignUp({ ...userSignUp, [property]: e.target.value });
+    setSignIn({ ...userSignIn, [property]: e.target.value });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    setSignUpStatus(true);
-    requestAuthApi
-      .signUp(userSignUp)
-      .then((response) => {
-        alert("Cadastro Realizado");
-        setSignUpStatus(false);
-        navigate("/");
-      })
-      .catch((e) => {
-        alert(e.response.data);
-        console.log(e.response.data);
-        setSignUpStatus(false);
-      });
+    setSignInStatus(true);
+    const promise =  requestAuthApi.signIn(userSignIn);
+    promise.then((response) => {
+      setSignInStatus(false);
+      localStorage.setItem('token', response.data.token)
+      navigate("/timeline");
+    });
+    promise.catch((e) => {
+      alert(e.response.data.error || e.response.data[0]);
+      console.log(e.response.data);
+      setSignInStatus(false);
+    });
   }
 
   return (
@@ -47,38 +44,22 @@ function SignUp() {
           <input
             type="text"
             placeholder="e-mail"
-            value={userSignUp.email}
+            value={userSignIn.email}
             onChange={(e) => handleInputs(e, "email")}
             required
-            disabled={signUpStatus}
+            disabled={signInStatus}
           />
           <input
             type="password"
             placeholder="password"
-            value={userSignUp.password}
+            value={userSignIn.password}
             onChange={(e) => handleInputs(e, "password")}
             autoComplete="on"
             required
-            disabled={signUpStatus}
+            disabled={signInStatus}
           />
-          <input
-            type="text"
-            placeholder="username"
-            value={userSignUp.username}
-            onChange={(e) => handleInputs(e, "username")}
-            required
-            disabled={signUpStatus}
-          />
-          <input
-            type="text"
-            placeholder="picture url"
-            value={userSignUp.picture}
-            onChange={(e) => handleInputs(e, "picture")}
-            required
-            disabled={signUpStatus}
-          />
-          <button disabled={signUpStatus}>Sign Up</button>
-          <p onClick={() => navigate("/")}>Switch back to log in</p>
+          <button disabled={signInStatus}>Log In</button>
+          <p onClick={() => navigate("/signup")}>First time? Create an account!</p>
         </form>
       </Container>
     </>
@@ -99,7 +80,7 @@ const Container = styled.div`
   }
 
   input {
-    width: 80%;
+    width: 429px;
     height: 65px;
     background: #ffffff;
     border-radius: 6px;
@@ -114,7 +95,7 @@ const Container = styled.div`
   }
 
   button {
-    width: 80%;
+    width: 429px;
     height: 65px;
     background: #1877f2;
     border-radius: 6px;
