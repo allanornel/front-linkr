@@ -7,7 +7,7 @@ export default function Post(props) {
     const { user, data } = props;
 
     const navigate = useNavigate()
-
+    console.log(data.hashtag)
     return (
         <PostContainer>
             <img className='profile-img' src={data.image} />
@@ -15,11 +15,11 @@ export default function Post(props) {
                 <FaRegHeart />
                 <span>{data.likesTotal} likes</span>
             </Likes>
-            <div>
+            <div className='posts'>
                 <p>{data.username}</p>
                 <h1>
                     <ReactHashtag onHashtagClick={val => navigate(`/hastag/${val.replace(/#/, '')}`)}>
-                    {data.description} {data.hashtag}
+                    {data.description ? data.description : " "} {/*data.hashtag*/}
                     </ReactHashtag>
                 </h1>
                 <div className='link'>
@@ -39,12 +39,14 @@ const PostContainer = styled.div`
     display: flex;
     flex-direction: row;
     height: 290px;
+    width: 610px;
     background-color: #252525;
     color: #ffffff;
     margin-top: 30px;
     padding: 25px;
     position: relative;
     border-radius: 16px;
+    
 
     .profile-img{
         display: inline;
@@ -54,18 +56,26 @@ const PostContainer = styled.div`
         height: 50px;
         margin-right: 16px;
     }
+
+    .posts{
+        max-width: 100%;
+    }
     
     div{
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 300px;
+        
         align-items: baseline;
 
         p{  
             font-size: 17px;
             font-weight: 400;
             padding-bottom: 10px;
+        }
+
+        a{
+            font-size: 13px;
         }
 
         h1{
@@ -84,8 +94,8 @@ const PostContainer = styled.div`
         .link{
             display: flex;
             flex-direction: row;
-            height: 180px;
-            width: 100%;
+            min-height: 180px;
+            
             border: 1px solid #4D4D4D;
             border-radius: 11px;
             align-items: start;
@@ -93,11 +103,19 @@ const PostContainer = styled.div`
             img{
                 height: 179px;
                 width: 200px;
+                border-radius: 11px;
             }
 
             .text{
+                display: flex;
+                flex-wrap: wrap;
+                height: 100%;
+                max-width: 290px;
+                word-break: break-word;
                 p{
                     padding: 20px;
+                    font-size: 15px;
+                    max-width: 250px;
                 }
 
                 h1{

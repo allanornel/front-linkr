@@ -39,8 +39,18 @@ function Timeline() {
       setLoading(false);
       console.log(error.message);
     });
-  }, []);
 
+    const promiseHashtag = requestHashtagsApi.getHashtags();
+    promiseHashtag.then((response) => {
+      setHashtags(response.data);
+      //setLoading(false);
+    });
+    promiseHashtag.catch((error) => {
+      //setLoading(false);
+      console.log(error.message);
+    });
+  }, []);
+  /*
   useEffect(() => {
     const promise = requestHashtagsApi.getHashtags();
     promise.then((response) => {
@@ -52,7 +62,7 @@ function Timeline() {
       console.log(error.message);
     });
   }, []);
-
+*/
   console.log(data);
   console.log(token);
 
@@ -89,7 +99,7 @@ function Timeline() {
                 </p>
               ))
             ) : (
-              <h4>There are no hashtags yet</h4>
+              <p>There are no hashtags yet</p>
             )}
           </ContainerHashtag>
         </DivFlex>
@@ -102,6 +112,7 @@ export default Timeline;
 
 const DivFlex = styled.div`
   display: flex;
+  width: 100vw;
 `;
 
 const ContainerHashtag = styled.div`
