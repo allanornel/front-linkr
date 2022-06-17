@@ -39,8 +39,18 @@ function Timeline() {
       setLoading(false);
       console.log(error.message);
     });
-  }, []);
 
+    const promiseHashtag = requestHashtagsApi.getHashtags();
+    promiseHashtag.then((response) => {
+      setHashtags(response.data);
+      //setLoading(false);
+    });
+    promiseHashtag.catch((error) => {
+      //setLoading(false);
+      console.log(error.message);
+    });
+  }, []);
+  /*
   useEffect(() => {
     const promise = requestHashtagsApi.getHashtags();
     promise.then((response) => {
@@ -52,7 +62,7 @@ function Timeline() {
       console.log(error.message);
     });
   }, []);
-
+*/
   console.log(data);
   console.log(token);
 
