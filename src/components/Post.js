@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 import { FaRegHeart } from 'react-icons/fa';
+import ReactHashtag from "@mdnm/react-hashtag";
+import { useNavigate } from 'react-router-dom'
 
 export default function Post(props) {
     const { user, data } = props;
+
+    const navigate = useNavigate()
 
     return (
         <PostContainer>
@@ -13,7 +17,11 @@ export default function Post(props) {
             </Likes>
             <div>
                 <p>{data.username}</p>
-                <h1>{data.description} <span>{data.hashtag}</span></h1>
+                <h1>
+                    <ReactHashtag onHashtagClick={val => navigate(`/hastag/${val.replace(/#/, '')}`)}>
+                    {data.description} {data.hashtag}
+                    </ReactHashtag>
+                </h1>
                 <div className='link'>
                     <div className='text'>
                         <p>{data.title}</p>
