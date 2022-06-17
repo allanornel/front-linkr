@@ -59,7 +59,7 @@ const PostContainer = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
+        width: 300px;
         align-items: baseline;
 
         p{  
