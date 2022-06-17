@@ -36,7 +36,7 @@ function Timeline() {
       setLoading(false);
     });
     promise.catch((error) => {
-      setError(true);
+      // setError(true);
       setLoading(false);
       console.log(error.message);
     });
@@ -88,9 +88,7 @@ function Timeline() {
               <h1>trending</h1>
             </div>
             {loading ? (
-              <h4>Loading...</h4>
-            ) : error ? (
-              <h4>An error occured while trying to fetch the hashtags, please refresh the page</h4>
+              <p>Loading...</p>
             ) : hashtags.length > 0 ? (
               hashtags.map((hashtag) => (
                 <p
@@ -102,7 +100,7 @@ function Timeline() {
                 </p>
               ))
             ) : (
-              <h4>There are no hashtags yet</h4>
+              <p>There are no hashtags yet</p>
             )}
           </ContainerHashtag>
         </DivFlex>
@@ -115,6 +113,7 @@ export default Timeline;
 
 const DivFlex = styled.div`
   display: flex;
+  width: 100vw;
 `;
 
 const ContainerHashtag = styled.div`
@@ -149,5 +148,9 @@ const ContainerHashtag = styled.div`
     line-height: 23px;
     letter-spacing: 0.05em;
     margin-left: 16px;
+  }
+
+  @media only screen and (max-width: 800px) {
+    display: none;
   }
 `;
