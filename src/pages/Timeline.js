@@ -14,6 +14,7 @@ function Timeline() {
   const [data, setData] = useState({});
   const [hashtags, setHashtags] = useState({});
   const [error, setError] = useState(false);
+  const [updatePage, setUpdatePage] = useState(0);
   const { token } = useAuth();
   const navigate = useNavigate();
   //user test DELETE
@@ -49,7 +50,7 @@ function Timeline() {
       //setLoading(false);
       console.log(error.message);
     });
-  }, []);
+  }, [updatePage]);
   /*
   useEffect(() => {
     const promise = requestHashtagsApi.getHashtags();
@@ -71,7 +72,7 @@ function Timeline() {
       <PageContainer title={"timeline"}>
         <DivFlex>
           <div>
-            <CreatePost />
+            <CreatePost updatePage={updatePage} setUpdatePage={setUpdatePage}/>
             {loading ? (
               <h4>Loading...</h4>
             ) : error ? (

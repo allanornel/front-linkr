@@ -4,7 +4,8 @@ import { useState } from 'react';
 import useAuth from "../hooks/useAuth";
 import requestPostsApi from './../services/api/posts';
 
-function CreatePost(){
+function CreatePost(props){
+    const { updatePage, setUpdatePage } = props;
     const [post, setPost] = useState({url:"", description:""});
     const [loading, setLoading] = useState(false);
 
@@ -20,6 +21,7 @@ function CreatePost(){
         promise.then((response) => {
             setLoading(false);
             setPost({url:"", description:""});
+            setUpdatePage(updatePage + 1);
             console.log(response);
         })
         promise.catch((e) => {
