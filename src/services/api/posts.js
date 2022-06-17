@@ -14,8 +14,12 @@ function posts (token) {
     return axios.get(`${URL}/timeline`, config(token) );
 }
 
+function userPosts (token, userId) {
+    return axios.get(`${URL}/user/${userId}`, config(token) );
+}
+
 const requestPostsApi = {
-    create, posts
+    create, posts, userPosts
 }
 
 export default requestPostsApi;
