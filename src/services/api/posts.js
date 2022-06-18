@@ -18,8 +18,12 @@ function userPosts (token, userId) {
     return axios.get(`${URL}/user/${userId}`, config(token) );
 }
 
+function deletePost (token, idPost) {
+    return axios.delete(`${URL}/post/${idPost}`, config(token) );
+}
+
 const requestPostsApi = {
-    create, posts, userPosts
+    create, posts, userPosts, deletePost
 }
 
 export default requestPostsApi;
