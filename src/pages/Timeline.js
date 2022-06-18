@@ -78,7 +78,7 @@ function Timeline() {
             ) : error ? (
               <h4>An error occured while trying to fetch the posts, please refresh the page</h4>
             ) : data.length > 0 ? (
-              data.map((post) => <Post user={user} data={post} />)
+              data.map((post) => <Post user={user} data={post} id={post.id} userId={post.idUser} setUpdatePage={setUpdatePage} />)
             ) : (
               <h4>There are no posts yet</h4>
             )}

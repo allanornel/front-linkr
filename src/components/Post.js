@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import styled from 'styled-components';
 import { FaRegHeart,  } from 'react-icons/fa';
 import { AiTwotoneDelete } from "react-icons/ai";
@@ -6,6 +6,8 @@ import ReactHashtag from "@mdnm/react-hashtag";
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom'
 import requestApi from '../services/api/posts'
+import ReactLoading from 'react-loading';
+import tokenDecode from "jwt-decode";
 import useAuth from "../hooks/useAuth";
 
 const customStyles = {
@@ -32,45 +34,58 @@ export default function Post(props) {
     const { token } = useAuth();
 
     const { user, data } = props;
+
+    const ref = useRef(null)
+
     const [modalOpen, setModalOpen] = useState(false)
-    const [idSelected, setIdSelected] = useState(0)
+    const [loadingDelet, setLoadingDelet] = useState(false)
 
     console.log(props)
+    const decoded = tokenDecode(token);
 
     const navigate = useNavigate()
 
     const showModal =  (id) => {
         setModalOpen(!modalOpen)
-        setIdSelected(id)
     }
 
     const deletedPost = async (id) => {
+       try {
+        setLoadingDelet(true)
         await requestApi.deletePost(token, id)
         setModalOpen(false)
-        setIdSelected(0)
+        props.setUpdatePage(Math.floor(Math.random() * 10))
+        ref.current.style.display = "none"
+       } catch(error) {
+        setModalOpen(false)
+       }
     }
     return (
-        <PostContainer>
-      <Modal
-        isOpen={modalOpen}
-        onRequestClose={setModalOpen}
-        contentLabel="Example Modal"
-        style={customStyles}
-      >
-        <TitleModal>Are you sure you want to delete this post?</TitleModal>
-        <AreaButtonModal>
-            <Button onClick={() => setModalOpen(false)}>No, go back</Button>
-            <Button color="#1877F2" onClick={() => deletedPost(idSelected) }>Yes, delete it</Button>
-        </AreaButtonModal>
-      </Modal>
+        <PostContainer ref={ref}>
+        <Modal
+            isOpen={modalOpen}
+            onRequestClose={setModalOpen}
+            contentLabel="Example Modal"
+            style={customStyles}
+        >
+            {!loadingDelet  ? <>
+                <TitleModal>Are you sure you want to delete this post?</TitleModal>
+            <AreaButtonModal>
+                <Button onClick={() => setModalOpen(false)}>No, go back</Button>
+                <Button color="#1877F2" onClick={() => deletedPost(props.id) }>Yes, delete it</Button>
+            </AreaButtonModal>
+            </> : <ReactLoading type="spin" color="#fff" height={90} width={90} /> }
+            
+        </Modal>
 
-
+            {console.log(decoded.id, props)}
             <img className='profile-img' src={data.image}  />
             <Likes>
                 <FaRegHeart />
                 <span>{data.likesTotal} likes</span>
             </Likes>
             <div className='posts'>
+                
                 <div className="post-header">
                  <div className="post-content-left">
                   <p>{data.username}</p>
@@ -80,14 +95,20 @@ export default function Post(props) {
                         </ReactHashtag>
                     </h1>
                  </div>
-                 <div className="post-content-right">
-                 <div className="post-action-button">
-                    <div className="action-delete" onClick={() => showModal(data.id)}>
-                        <AiTwotoneDelete size={15} color="#fff"  />
-                    </div>
-                </div>
-                 </div>
-                </div>                     
+                 {decoded.id === props.userId &&
+                    <>
+                        <div className="post-content-right">
+                            <div className="post-action-button">
+                                <div className="action-delete" onClick={() => showModal()}>
+                                    <AiTwotoneDelete size={15} color="#fff"  />
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                 }
+                </div> 
+
+
                 <div className='link'>
                     <div className='text'>
                         <p>{data.title}</p>
@@ -119,6 +140,8 @@ const PostContainer = styled.div`
         width: 100%;
     }
 
+    transition: display 0.3s linear;
+
     .post-header > .post-content-left {
         flex: 1;
     }
@@ -146,7 +169,7 @@ const PostContainer = styled.div`
     }
 
     .posts{
-        max-width: 100%;
+        width: 100%;
         position: relative;
     }
     
@@ -183,7 +206,8 @@ const PostContainer = styled.div`
         .link{
             display: flex;
             flex-direction: row;
-            min-height: 180px;
+            width: 100%;
+            justify-content: space-between;
             
             border: 1px solid #4D4D4D;
             border-radius: 11px;
@@ -250,6 +274,7 @@ const Likes = styled.div`
 const TitleModal = styled.h1`
     width: 338px;
     font-weight: 700;
+    text-align: center;
     font-size: 32px;
     color: #fff;
 `
