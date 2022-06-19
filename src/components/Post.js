@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { FaRegHeart } from "react-icons/fa";
 import { AiTwotoneDelete } from "react-icons/ai";
@@ -9,6 +9,7 @@ import requestApi from "../services/api/posts";
 import ReactLoading from "react-loading";
 import tokenDecode from "jwt-decode";
 import useAuth from "../hooks/useAuth";
+import requestLikesApi from "./../services/api/likes";
 
 const customStyles = {
 	content: {
@@ -39,8 +40,9 @@ export default function Post(props) {
 
 	const [modalOpen, setModalOpen] = useState(false);
 	const [loadingDelet, setLoadingDelet] = useState(false);
+	const [like, setLike] = useState({numberLikes:0, twoFirst:[], isLike:false});
+	const [update, setUpdate] = useState(0);
 
-	console.log(props);
 	const decoded = tokenDecode(token);
 
 	const navigate = useNavigate();
@@ -60,6 +62,32 @@ export default function Post(props) {
 			setModalOpen(false);
 		}
 	};
+	
+	useEffect(() => {
+		if(data){
+			const promise = requestLikesApi.getLike(token, data.id);
+			promise.then((response) => {
+				const {data} = response;
+				setLike({...data});
+			});
+			promise.catch((e) => {
+				console.log(e.message);
+			});
+		}
+	}, [data, update]);
+
+	function likePost() {
+		console.log(data.id);
+		const promise = requestLikesApi.postLike(token, data.id);
+		promise.then((response) => {
+			const { data } = response;
+			setUpdate(update + 1);
+		});
+		promise.catch((e) => {
+			console.log(e.message);
+		});
+	}
+
 	return (
 		<PostContainer ref={ref}>
 			<Modal
@@ -86,8 +114,8 @@ export default function Post(props) {
 			{console.log(decoded.id, props)}
 			<img className="profile-img" src={data.image} />
 			<Likes>
-				<FaRegHeart />
-				<span>{data.likesTotal} likes</span>
+				<FaRegHeart onClick={likePost} color={like.isLike ? 'red' : 'black'}/>
+				<span>{like.numberLikes} likes</span>
 			</Likes>
 			<div className="posts">
 				<div className="post-header">
