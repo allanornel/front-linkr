@@ -126,7 +126,6 @@ export default function Post(props) {
       console.log(e.message);
     });
   }
-  console.log(data);
   return (
     <PostContainer ref={ref}>
       <Modal isOpen={modalOpen} onRequestClose={setModalOpen} contentLabel="Example Modal" style={customStyles}>
@@ -363,11 +362,11 @@ const PostContainer = styled.div`
     }
   }
 
-  @media (max-width: 620px){
+  @media (max-width: 620px) {
     border-radius: 0px;
-    div{
-      .link{
-        img{
+    div {
+      .link {
+        img {
           height: 100%;
         }
       }
