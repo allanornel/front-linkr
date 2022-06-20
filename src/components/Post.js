@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { GrEdit } from "react-icons/gr";
 import ReactHashtag from "@mdnm/react-hashtag";
@@ -11,6 +11,7 @@ import ReactLoading from "react-loading";
 import tokenDecode from "jwt-decode";
 import useAuth from "../hooks/useAuth";
 import requestLikesApi from "./../services/api/likes";
+import ReactTooltip from 'react-tooltip';
 
 const customStyles = {
   content: {
@@ -143,13 +144,35 @@ export default function Post(props) {
           <ReactLoading type="spin" color="#fff" height={90} width={90} />
         )}
       </Modal>
-
-      {console.log(decoded.id, props)}
       <img className="profile-img" src={data.image} alt="profile img" />
-      <Likes>
-        <FaRegHeart onClick={likePost} color={like.isLike ? "red" : "black"} />
+      <Likes data-tip data-for={data.id.toString()}>
+        {
+          like.isLike ?  
+            <FaHeart onClick={likePost} color="#AC0000"/>
+            : 
+            <FaRegHeart onClick={likePost} color="#FFFFFF"/>
+        }
         <span>{like.numberLikes} likes</span>
       </Likes>
+      <ReactTooltip id={data.id.toString()} place='bottom' backgroundColor="#FFFFFFE5" textColor="#505050" effect="solid">
+        <span>
+          {
+            like.numberLikes > 3 ? 
+            `${like.twoFirst[0]}, ${like.twoFirst[1]} e outras ${like.numberLikes - 2} pessoas`
+            :
+            like.numberLikes > 2 ?
+            `${like.twoFirst[0]}, ${like.twoFirst[1]} e outra pessoa`
+            :
+            like.numberLikes > 1 ?
+            `${like.twoFirst[0]} e ${like.twoFirst[1]}`
+            :
+            like.numberLikes > 0 ?
+            `${like.twoFirst[0]}`
+            :
+            'Ninguém curtiu'
+          }
+        </span>
+      </ReactTooltip>
       <div className="posts">
         <div className="post-header">
           <div className="post-content-left">
