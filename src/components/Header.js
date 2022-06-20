@@ -22,14 +22,14 @@ function Header(props) {
           {toggle ? <IoIosArrowUp color="#FFFFFF" size={18} strokeWidth="5" /> : <IoIosArrowDown color="#FFFFFF" size={18} strokeWidth="5" />}
           <img src={image} alt="userImage" />
         </div>
+        {toggle ? (
+          <Bar onClick={() => setToggle(false)}>
+            <p onClick={() => handleLogout()}>Logout</p>
+          </Bar>
+          ) : (
+          <></>
+        )}
       </Container>
-      {toggle ? (
-        <Bar onClick={() => setToggle(false)}>
-          <p onClick={() => handleLogout()}>Logout</p>
-        </Bar>
-      ) : (
-        <></>
-      )}
     </>
   );
 }
@@ -67,6 +67,9 @@ const Container = styled.header`
 `;
 
 const Bar = styled.section`
+  position: fixed;
+  right:0;
+  top: 72px;
   width: 150px;
   height: 43px;
   background-color: #171717;
