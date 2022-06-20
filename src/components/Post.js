@@ -73,7 +73,6 @@ export default function Post(props) {
       try {
         const promise = await requestApi.editPost(token, id, { description: valueEdit, url: data.url });
         setDisableEdit(true);
-        console.log(promise);
         if (promise.status === 200) {
           props.setUpdatePage(Math.floor(Math.random() * 10));
           setEditing(false);
