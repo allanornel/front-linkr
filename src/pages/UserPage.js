@@ -102,7 +102,6 @@ export default Timeline;
 
 const DivFlex = styled.div`
   display: flex;
-  width: 100vw;
 `;
 
 const ContainerHashtag = styled.div`
@@ -114,7 +113,7 @@ const ContainerHashtag = styled.div`
   color: #ffffff;
   font-style: normal;
   font-weight: 700;
-
+  
   div {
     padding-bottom: 12px;
     margin-bottom: 22px;
