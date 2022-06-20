@@ -13,8 +13,9 @@ const Title = styled.h2`
   font-size: 33px;
   color: #ffffff;
   padding: 28px 0px 19px 17px;
+  margin-top: 100px;
   @media (min-width: 620px){
     font-size: 43px;
-    margin-top: 70px;
+    margin-top: 148px;
   }
 `;

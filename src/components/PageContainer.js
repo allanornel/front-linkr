@@ -11,26 +11,38 @@ function PageContainer({ title, children }) {
 	return (
 		<>
 			<Header toggle={toggle} setToggle={setToggle} />
-			<Section onClick={() => setToggle(false)}>	
-				<PageTitle>{title}</PageTitle>
-				<Container>{children}</Container>
-			</Section>
+			<Div>
+				<Section onClick={() => setToggle(false)}>	
+					<PageTitle>{title}</PageTitle>
+					<Container>{children}</Container>
+				</Section>
+			</Div>
 		</>
 	);
 }
 
 export default PageContainer;
 
+const Div = styled.div`
+	@media (min-width: 620px) {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+`
+
 const Section = styled.section`
-	box-sizing: border-box;
 	h4 {
 		font-size: 20px;
 		margin-top: 100px;
 		color: #ffffff;
 	}
-	@media (min-width: 620px) {
+	@media (min-width: 800px) {
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
+		width: 800px;
 	}
 `;
 

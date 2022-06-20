@@ -37,12 +37,17 @@ function Header(props) {
 export default Header;
 
 const Container = styled.header`
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
   padding: 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 72px;
   background-color: #151515;
+  z-index: 2;
   h1 {
     color: #ffffff;
     font-family: "Passion One", cursive;
