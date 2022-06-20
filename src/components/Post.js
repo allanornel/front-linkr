@@ -224,15 +224,13 @@ export default function Post(props) {
 const PostContainer = styled.div`
   display: flex;
   flex-direction: row;
-  height: 290px;
-  width: 610px;
   background-color: #252525;
   color: #ffffff;
   margin-top: 30px;
   padding: 25px;
   position: relative;
   border-radius: 16px;
-
+  width: 611px;
   .post-header {
     display: flex;
     flex-direction: row;
@@ -250,7 +248,6 @@ const PostContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     color: #ffffff;
-    // position: absolute;
     right: 26px;
   }
 
@@ -262,8 +259,6 @@ const PostContainer = styled.div`
 
   & > .post-action-button > .action-delete {
     cursor: pointer;
-    // width: 30px;
-    // height: 30px;
     background: red;
   }
 
@@ -334,8 +329,8 @@ const PostContainer = styled.div`
       align-items: start;
 
       img {
-        height: 179px;
-        width: 200px;
+        height: 155px;
+        width: 50%;
         border-radius: 11px;
       }
 
@@ -363,6 +358,17 @@ const PostContainer = styled.div`
           padding-left: 20px;
           text-decoration: none;
           color: white;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 620px){
+    border-radius: 0px;
+    div{
+      .link{
+        img{
+          height: 100%;
         }
       }
     }

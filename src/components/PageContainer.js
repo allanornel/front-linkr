@@ -11,7 +11,7 @@ function PageContainer({ title, children }) {
 	return (
 		<>
 			<Header toggle={toggle} setToggle={setToggle} />
-			<Section onClick={() => setToggle(false)}>
+			<Section onClick={() => setToggle(false)}>	
 				<PageTitle>{title}</PageTitle>
 				<Container>{children}</Container>
 			</Section>
@@ -29,10 +29,8 @@ const Section = styled.section`
 		color: #ffffff;
 	}
 	@media (min-width: 620px) {
-		margin: 0px auto 0px auto;
 		display: flex;
 		flex-direction: column;
-		width: 620px;
 	}
 `;
 

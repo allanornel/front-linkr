@@ -120,7 +120,7 @@ const ContainerHashtag = styled.div`
 		margin-left: 16px;
 	}
 
-	@media only screen and (max-width: 800px) {
+	@media only screen and (max-width: 1000px) {
 		display: none;
 	}
 `;

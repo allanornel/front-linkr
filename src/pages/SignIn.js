@@ -91,7 +91,7 @@ const Container = styled.div`
 	}
 
 	input {
-		width: 429px;
+		width: 80%;
 		height: 65px;
 		background: #ffffff;
 		border-radius: 6px;
@@ -106,7 +106,7 @@ const Container = styled.div`
 	}
 
 	button {
-		width: 429px;
+		width: 80%;
 		height: 65px;
 		background: #1877f2;
 		border-radius: 6px;
