@@ -20,7 +20,6 @@ function HashtagPage() {
     try {
       async function fetchData() {
         const postsResponse = await requestHashtagsApi.getPostsByHashtag(hashtag);
-        console.log(postsResponse);
         const hashtagsResponse = await requestHashtagsApi.getHashtags();
         setPostsList(postsResponse.data);
         setHashtags(hashtagsResponse.data);
