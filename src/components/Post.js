@@ -10,6 +10,7 @@ import requestApi from "../services/api/posts";
 import ReactLoading from "react-loading";
 import tokenDecode from "jwt-decode";
 import useAuth from "../hooks/useAuth";
+import requestLikesApi from "./../services/api/likes";
 
 const customStyles = {
   content: {
@@ -44,8 +45,8 @@ export default function Post(props) {
   const [editing, setEditing] = useState(false);
   const [disabledEdit, setDisableEdit] = useState(false);
   const [valueEdit, setValueEdit] = useState(data.description);
-
-  console.log(props);
+  const [like, setLike] = useState({ numberLikes: 0, twoFirst: [], isLike: false });
+  const [update, setUpdate] = useState(0);
   const decoded = tokenDecode(token);
 
   const navigate = useNavigate();
@@ -101,6 +102,30 @@ export default function Post(props) {
       setModalOpen(false);
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      const promise = requestLikesApi.getLike(token, data.id);
+      promise.then((response) => {
+        const { data } = response;
+        setLike({ ...data });
+      });
+      promise.catch((e) => {
+        console.log(e.message);
+      });
+    }
+  }, [data, update]);
+
+  function likePost() {
+    const promise = requestLikesApi.postLike(token, data.id);
+    promise.then((response) => {
+      const { data } = response;
+      setUpdate(update + 1);
+    });
+    promise.catch((e) => {
+      console.log(e.message);
+    });
+  }
   return (
     <PostContainer ref={ref}>
       <Modal isOpen={modalOpen} onRequestClose={setModalOpen} contentLabel="Example Modal" style={customStyles}>
@@ -122,8 +147,8 @@ export default function Post(props) {
       {console.log(decoded.id, props)}
       <img className="profile-img" src={data.image} alt="profile img" />
       <Likes>
-        <FaRegHeart />
-        <span>{data.likesTotal} likes</span>
+        <FaRegHeart onClick={likePost} color={like.isLike ? "red" : "black"} />
+        <span>{like.numberLikes} likes</span>
       </Likes>
       <div className="posts">
         <div className="post-header">
