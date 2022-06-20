@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaPencilAlt } from "react-icons/fa";
 import { AiTwotoneDelete } from "react-icons/ai";
-import { GrEdit } from "react-icons/gr";
 import ReactHashtag from "@mdnm/react-hashtag";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
@@ -177,7 +176,7 @@ export default function Post(props) {
               <div className="post-content-right">
                 <div className="post-action-button">
                   <div className="action-edit" onClick={() => editPost()}>
-                    <GrEdit size={15} color="#fff" />
+                    <FaPencilAlt size={15} color="#ffffff" />
                   </div>
                   <div className="action-delete" onClick={() => showModal()}>
                     <AiTwotoneDelete size={15} color="#fff" />
