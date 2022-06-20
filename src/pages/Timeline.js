@@ -123,7 +123,7 @@ export default Timeline;
 
 const DivFlex = styled.div`
 	display: flex;
-	width: 100vw;
+	
 `;
 
 const ContainerHashtag = styled.div`
