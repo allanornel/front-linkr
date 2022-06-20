@@ -26,12 +26,17 @@ function editPost(token, idPost, objEdit) {
   return axios.put(`${URL}/post/${idPost}`, objEdit, config(token));
 }
 
+function getAllUsers(token) {
+  return axios.get(`${URL}/users`, config(token));
+}
+
 const requestPostsApi = {
   create,
   posts,
   userPosts,
   deletePost,
   editPost,
+  getAllUsers
 };
 
 export default requestPostsApi;
