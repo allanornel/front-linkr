@@ -17,7 +17,7 @@ function Header(props) {
   return (
     <>
       <Container>
-        <h1>linkr</h1>
+        <h1 onClick={() => navigate("/timeline")}>linkr</h1>
         <div onClick={() => setToggle(!toggle)}>
           {toggle ? <IoIosArrowUp color="#FFFFFF" size={18} strokeWidth="5" /> : <IoIosArrowDown color="#FFFFFF" size={18} strokeWidth="5" />}
           <img src={image} alt="userImage" />
