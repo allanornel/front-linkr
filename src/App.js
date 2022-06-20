@@ -11,19 +11,19 @@ import "./assets/css/reset.css";
 import "./assets/css/style.css";
 
 function App() {
-	return (
-		<AuthProvider>
-			<BrowserRouter>
-				<Routes>
-					<Route path="/timeline" element={<Timeline />} />
-					<Route path="/signup" element={<SignUp />} />
-					<Route path="/" element={<SignIn />} />
-					<Route path="/user" element={<UserPage />} />
-					<Route path="/hashtag/:hashtag" element={<HashtagPage />} />
-				</Routes>
-			</BrowserRouter>
-		</AuthProvider>
-	);
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/timeline" element={<Timeline />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<SignIn />} />
+          <Route path="/user/:user" element={<UserPage />} />
+          <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
 
 export default App;

@@ -126,6 +126,7 @@ export default function Post(props) {
       console.log(e.message);
     });
   }
+  console.log(data);
   return (
     <PostContainer ref={ref}>
       <Modal isOpen={modalOpen} onRequestClose={setModalOpen} contentLabel="Example Modal" style={customStyles}>
@@ -164,7 +165,13 @@ export default function Post(props) {
       <div className="posts">
         <div className="post-header">
           <div className="post-content-left">
-            <p>{data.username}</p>
+            <p
+              onClick={() => {
+                navigate(`/user/${data.idUser}`);
+              }}
+            >
+              {data.username}
+            </p>
             {editing ? (
               <input
                 type="text"
