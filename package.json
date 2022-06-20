@@ -28,6 +28,8 @@
 
     "react-scripts": "^4.0.3",
 
+    "react-tooltip": "^4.2.21",
+
     "styled-components": "^5.3.5",
 
     "url-metadata": "^2.5.0"
