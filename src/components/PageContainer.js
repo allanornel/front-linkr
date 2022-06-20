@@ -7,12 +7,16 @@ import PageTitle from "./PageTitle";
 
 function PageContainer({ title, children }) {
 	const [toggle, setToggle] = useState(false);
+	const [close, setClose] = useState(true);
 
 	return (
 		<>
-			<Header toggle={toggle} setToggle={setToggle} />
+			<Header toggle={toggle} setToggle={setToggle} close={close} setClose={setClose}/>
 			<Div>
-				<Section onClick={() => setToggle(false)}>	
+				<Section onClick={() => { 
+					setToggle(false);
+					setClose(true)
+					}}>	
 					<PageTitle>{title}</PageTitle>
 					<Container>{children}</Container>
 				</Section>

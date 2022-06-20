@@ -9,11 +9,11 @@ import requestPostsApi from "./../services/api/posts";
 
 function Header(props) {
   const { signOut, image } = useAuth();
-  const { toggle, setToggle } = props;
+  const { toggle, setToggle, close, setClose } = props;
   const navigate = useNavigate();
   const { token } = useAuth();
-  const [allUsers, setAllUsers] = useState([]);
   const [search, setSearch] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
 
   const handleLogout = () => {
     navigate("/");
@@ -21,19 +21,19 @@ function Header(props) {
   };
 
   useEffect(() => {
-    const promise = requestPostsApi.getAllUsers(token);
-    promise.then((response) => {
-      console.log(response.data);
-      setAllUsers(response.data);
-    });
-    promise.catch((error) => {
-      console.log(error.message);
-    });
-  }, []);
+        const promise = requestPostsApi.getAllUsers(token);
+        promise.then((response) => {
+          setAllUsers(response.data);
+        });
+        promise.catch((error) => {
+          console.log(error.message);
+        });
+  }, [search]);
 
   async function handleSearch(e) {
     const { value } = e.target;
-
+    if(!value) return setClose(true);
+    setClose(false);
     setSearch(allUsers.filter((user) => user.username.includes(value)));
   }
 
@@ -49,7 +49,7 @@ function Header(props) {
               placeholder="Search for people"
               onChange={(event) => handleSearch(event)}
             />
-            <SearchedUsers>
+            <SearchedUsers close={close}>
               {search.map((user) => {
                 return (
                   <Link to={`/user/${user.id}`} key={search.indexOf(user)} className='link-user'>
@@ -151,6 +151,7 @@ const SearchedUsers = styled.ul`
   right: 0;
   top: 30px;
   z-index: 2;
+  display: ${props => props.close ? 'none' : 'inline'};
   
   .link-user {
     text-decoration: none;
@@ -171,7 +172,7 @@ const SearchedUsers = styled.ul`
     line-height: 23px;
     color: #515151;
   }
-`
+`;
 
 const Bar = styled.section`
   position: fixed;
