@@ -166,8 +166,8 @@ export default function Post(props) {
               ></input>
             ) : (
               <h1>
-                <ReactHashtag onHashtagClick={(val) => navigate(`/hastag/${val.replace(/#/, "")}`)}>
-                  {data.description ? data.description : " "} {/*data.hashtag*/}
+                <ReactHashtag onHashtagClick={(val) => navigate(`/hashtag/${val.replace(/#/, "")}`)}>
+                  {data.description ? data.description : " "}
                 </ReactHashtag>
               </h1>
             )}
