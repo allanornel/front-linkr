@@ -193,3 +193,4 @@ const Bar = styled.section`
     color: #ffffff;
   }
 `;
+
