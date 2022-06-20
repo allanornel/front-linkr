@@ -281,11 +281,13 @@ const PostContainer = styled.div`
     font-weight: 400;
     font-size: 17px;
     color: #4c4c4c;
-    padding-bottom: 10px;
-    width: 100%;
-    height: 110px;
+    width: 109%;
+    height: fit-content;
     background: #ffffff;
     border-radius: 7px;
+    margin-bottom: 9px;
+    padding: 10px;
+    word-break: break-word;
   }
 
   div {
@@ -363,11 +365,11 @@ const PostContainer = styled.div`
     }
   }
 
-  @media (max-width: 620px){
+  @media (max-width: 620px) {
     border-radius: 0px;
-    div{
-      .link{
-        img{
+    div {
+      .link {
+        img {
           height: 100%;
         }
       }
