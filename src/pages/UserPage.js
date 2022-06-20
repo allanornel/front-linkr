@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import { useNavigate, useParams } from "react-router-dom";
-
 import PageContainer from "./../components/PageContainer";
-import CreatePost from "./../components/CreatePost";
 import Post from "./../components/Post";
 import requestPostsApi from "./../services/api/posts";
 import requestHashtagsApi from "../services/api/hashtags";
@@ -59,14 +57,11 @@ function Timeline() {
     });
   }, []);
 */
-  console.log(data);
-
   return (
     <>
       <PageContainer title={`${data[0]?.username}'s posts`}>
         <DivFlex>
           <div>
-            <CreatePost updatePage={updatePage} setUpdatePage={setUpdatePage} />
             {loading ? (
               <h4>Loading...</h4>
             ) : error ? (
