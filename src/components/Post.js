@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { FaRegHeart, FaPencilAlt, FaHeart } from "react-icons/fa";
+import { FaPencilAlt, FaRegCommentDots} from "react-icons/fa";
 import { AiTwotoneDelete } from "react-icons/ai";
 import ReactHashtag from "@mdnm/react-hashtag";
 import Modal from "react-modal";
@@ -9,8 +9,8 @@ import requestApi from "../services/api/posts";
 import ReactLoading from "react-loading";
 import tokenDecode from "jwt-decode";
 import useAuth from "../hooks/useAuth";
-import requestLikesApi from "./../services/api/likes";
-import ReactTooltip from "react-tooltip";
+import CommentPost from "./CommentPost";
+import LikePost from "./LikePost";
 
 const customStyles = {
   content: {
@@ -33,7 +33,7 @@ const customStyles = {
 };
 
 export default function Post(props) {
-  const { token } = useAuth();
+  const { token} = useAuth();
 
   const { user, data } = props;
 
@@ -45,8 +45,7 @@ export default function Post(props) {
   const [editing, setEditing] = useState(false);
   const [disabledEdit, setDisableEdit] = useState(false);
   const [valueEdit, setValueEdit] = useState(data.description);
-  const [like, setLike] = useState({ numberLikes: 0, twoFirst: [], isLike: false });
-  const [update, setUpdate] = useState(0);
+  const [openComment, setOpenComment] = useState(false);
   const decoded = tokenDecode(token);
 
   const navigate = useNavigate();
@@ -103,30 +102,8 @@ export default function Post(props) {
     }
   };
 
-  useEffect(() => {
-    if (data) {
-      const promise = requestLikesApi.getLike(token, data.id);
-      promise.then((response) => {
-        const { data } = response;
-        setLike({ ...data });
-      });
-      promise.catch((e) => {
-        console.log(e.message);
-      });
-    }
-  }, [data, update]);
-
-  function likePost() {
-    const promise = requestLikesApi.postLike(token, data.id);
-    promise.then((response) => {
-      const { data } = response;
-      setUpdate(update + 1);
-    });
-    promise.catch((e) => {
-      console.log(e.message);
-    });
-  }
   return (
+    <Div>
     <PostContainer ref={ref}>
       <Modal isOpen={modalOpen} onRequestClose={setModalOpen} contentLabel="Example Modal" style={customStyles}>
         {!loadingDelet ? (
@@ -144,23 +121,10 @@ export default function Post(props) {
         )}
       </Modal>
       <img className="profile-img" src={data.image} alt="profile img" />
-      <Likes data-tip data-for={data.id.toString()}>
-        {like.isLike ? <FaHeart onClick={likePost} color="#AC0000" /> : <FaRegHeart onClick={likePost} color="#FFFFFF" />}
-        <span>{like.numberLikes} likes</span>
-      </Likes>
-      <ReactTooltip id={data.id.toString()} place="bottom" backgroundColor="#FFFFFFE5" textColor="#505050" effect="solid">
-        <span>
-          {like.numberLikes > 3
-            ? `${like.twoFirst[0]}, ${like.twoFirst[1]} e outras ${like.numberLikes - 2} pessoas`
-            : like.numberLikes > 2
-            ? `${like.twoFirst[0]}, ${like.twoFirst[1]} e outra pessoa`
-            : like.numberLikes > 1
-            ? `${like.twoFirst[0]} e ${like.twoFirst[1]}`
-            : like.numberLikes > 0
-            ? `${like.twoFirst[0]}`
-            : "Ninguém curtiu"}
-        </span>
-      </ReactTooltip>
+      <LikePost data={data}/>
+      <Comments>
+        <FaRegCommentDots onClick={() => setOpenComment(!openComment)}/>
+      </Comments>
       <div className="posts">
         <div className="post-header">
           <div className="post-content-left">
@@ -217,13 +181,27 @@ export default function Post(props) {
         </div>
       </div>
     </PostContainer>
+    { openComment ? 
+      <CommentPost data={data}/>
+      :
+      <></>
+    }
+    </Div>
   );
 }
+
+const Div = styled.div`
+  background-color: #1E1E1E;
+  border-radius: 16px;
+  @media (min-width: 620px){
+    width: 611px;
+  }
+`
 
 const PostContainer = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #252525;
+  background-color: #171717;
   color: #ffffff;
   margin-top: 30px;
   padding: 25px;
@@ -376,10 +354,10 @@ const PostContainer = styled.div`
   }
 `;
 
-const Likes = styled.div`
+const Comments = styled.div`
   display: flex;
   position: absolute;
-  top: 100px;
+  top: 150px;
   left: 32px;
   font-size: 20px;
 
@@ -391,7 +369,7 @@ const Likes = styled.div`
     font-size: 11px;
     margin-top: 8px;
   }
-`;
+`
 
 const TitleModal = styled.h1`
   width: 338px;
