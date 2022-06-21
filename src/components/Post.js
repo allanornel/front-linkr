@@ -125,7 +125,7 @@ export default function Post(props) {
         <LikePost data={data} />
         <Comments>
           <FaRegCommentDots onClick={() => setOpenComment(!openComment)} />
-          <span>{data.commentsTotal}</span>
+          <span>{data.commentsTotal} comments</span>
         </Comments>
         <Repost data={data} />
         <div className="posts">
@@ -184,7 +184,7 @@ export default function Post(props) {
           </div>
         </div>
       </PostContainer>
-      {openComment ? <CommentPost data={data} /> : <></>}
+      {openComment ? <CommentPost setUpdatePage={props.setUpdatePage}  data={data} /> : <></>}
     </Div>
   );
 }

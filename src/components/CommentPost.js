@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth";
 import requestCommentApi from './../services/api/comments';
 
 function CommentPost(props){
-    const { data } = props;
+    const { data, setUpdatePage } = props;
     const { token, image } = useAuth();
 
     const [ comments, setComments ] = useState([]);
@@ -34,6 +34,7 @@ function CommentPost(props){
             console.log(status);
             setComment({comment:""});
             setUpdate(update + 1);
+            setUpdatePage(Math.floor(Math.random() * 10));
             setLoad(false);
         });
         promise.catch((e) => {
