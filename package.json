@@ -34,7 +34,9 @@
 
     "styled-components": "^5.3.5",
 
-    "url-metadata": "^2.5.0"
+    "url-metadata": "^2.5.0",
+
+    "use-interval": "^1.4.0"
 
   },
 
