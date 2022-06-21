@@ -19,6 +19,7 @@ function CommentPost(props){
         promise.then((response) => {
             const { status } = response;
             console.log(status);
+            setComment({comment:""});
             setLoad(false);
         });
         promise.catch((e) => {
