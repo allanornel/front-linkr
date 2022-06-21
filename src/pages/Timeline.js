@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import useInterval from 'use-interval';
+import { BsArrowRepeat } from 'react-icons/bs';
 
 import PageContainer from "./../components/PageContainer";
 import CreatePost from "./../components/CreatePost";
@@ -15,6 +17,8 @@ function Timeline() {
 	const [hashtags, setHashtags] = useState({});
 	const [error, setError] = useState(false);
 	const [updatePage, setUpdatePage] = useState(0);
+  const [newPosts, setNewPosts] = useState(false);
+  const [newPostsTotal, setNewPostsTotal] = useState(0);
 	const { token } = useAuth();
 	const navigate = useNavigate();
 	//user test DELETE
@@ -37,7 +41,7 @@ function Timeline() {
 			setLoading(false);
 		});
 		promise.catch((error) => {
-			// setError(true);
+			setError(true);
 			setLoading(false);
 			console.log(error.message);
 		});
@@ -52,19 +56,31 @@ function Timeline() {
 			console.log(error.message);
 		});
 	}, [updatePage]);
-	/*
-  useEffect(() => {
-    const promise = requestHashtagsApi.getHashtags();
-    promise.then((response) => {
-      setHashtags(response.data);
-      setLoading(false);
-    });
-    promise.catch((error) => {
-      setLoading(false);
+	
+
+
+  useInterval(async () => {
+    try {
+      requestPostsApi.posts(token).then((response) => {
+        let lastPostIndex = 0;
+        const newPosts = response.data;
+        
+        if (newPosts[0].id !== data[0].id) {
+          //search last equal post in data
+          lastPostIndex = newPosts.findIndex(
+            (post) => post.id === data[0].id
+          );
+          setNewPostsTotal(lastPostIndex);
+          setNewPosts(true);
+        }
+      });
+
+    } catch (error) {
       console.log(error.message);
-    });
-  }, []);
-*/
+    }
+  }, 15000);
+
+
 
 	return (
 		<>
@@ -72,6 +88,14 @@ function Timeline() {
 				<DivFlex>
 					<div>
 						<CreatePost updatePage={updatePage} setUpdatePage={setUpdatePage} />
+            {newPosts ? 
+            <BlueBox onClick={() => {
+              setNewPosts(false);
+              setUpdatePage(updatePage + 1);
+            }}>
+              <p>{newPostsTotal} new posts, load more!</p>
+              <BsArrowRepeat className='reload-icon'/> 
+            </BlueBox> : null}
 						{loading ? (
 							<h4>Loading...</h4>
 						) : error ? (
@@ -163,3 +187,26 @@ const ContainerHashtag = styled.div`
 		display: none;
 	}
 `;
+
+const BlueBox = styled.div`
+  display: flex;
+  height: 61px;
+  color: #ffffff;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: #1877F2;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  margin-top: 30px;
+
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+
+  .reload-icon {
+    margin-left: 20px;
+    font-size: 20px;
+  }
+`
