@@ -182,7 +182,7 @@ export default function Post(props) {
       </div>
     </PostContainer>
     { openComment ? 
-      <CommentPost />
+      <CommentPost data={data}/>
       :
       <></>
     }
