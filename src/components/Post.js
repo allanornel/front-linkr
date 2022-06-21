@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { FaRegHeart, FaPencilAlt, FaHeart } from "react-icons/fa";
+import { FaRegHeart, FaPencilAlt, FaHeart, FaRegCommentDots, FaRegPaperPlane } from "react-icons/fa";
 import { AiTwotoneDelete } from "react-icons/ai";
 import ReactHashtag from "@mdnm/react-hashtag";
 import Modal from "react-modal";
@@ -33,7 +33,7 @@ const customStyles = {
 };
 
 export default function Post(props) {
-  const { token } = useAuth();
+  const { token, image } = useAuth();
 
   const { user, data } = props;
 
@@ -47,6 +47,7 @@ export default function Post(props) {
   const [valueEdit, setValueEdit] = useState(data.description);
   const [like, setLike] = useState({ numberLikes: 0, twoFirst: [], isLike: false });
   const [update, setUpdate] = useState(0);
+  const [openComment, setOpenComment] = useState(false);
   const decoded = tokenDecode(token);
 
   const navigate = useNavigate();
@@ -127,6 +128,7 @@ export default function Post(props) {
     });
   }
   return (
+    <Div>
     <PostContainer ref={ref}>
       <Modal isOpen={modalOpen} onRequestClose={setModalOpen} contentLabel="Example Modal" style={customStyles}>
         {!loadingDelet ? (
@@ -161,6 +163,9 @@ export default function Post(props) {
             : "Ninguém curtiu"}
         </span>
       </ReactTooltip>
+      <Comments>
+        <FaRegCommentDots onClick={() => setOpenComment(!openComment)}/>
+      </Comments>
       <div className="posts">
         <div className="post-header">
           <div className="post-content-left">
@@ -217,13 +222,59 @@ export default function Post(props) {
         </div>
       </div>
     </PostContainer>
+    { openComment ? 
+      <CommentContainer>
+        <img src={image} alt='imagem usuário'/>
+        <input placeholder="write a comment..."/>
+        <FaRegPaperPlane className="plane" color="#F3F3F3"/>
+      </CommentContainer>
+      :
+      <></>
+    }
+    </Div>
   );
 }
+
+const Div = styled.div`
+  background-color: #1E1E1E;
+  border-radius: 16px;
+`
+
+const CommentContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1E1E1E;
+  padding: 25px;
+  border-radius: 16px;
+  img{
+    width: 39px;
+    height: 39px;
+    border-radius: 50px;
+  }
+  input{
+    background-color: #252525;
+    width: 510px;
+    height: 39px;
+    border: none;
+    border-radius: 8px;
+    padding: 15px;
+    color: #ACACAC;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+  }
+  .plane{
+    position: absolute;
+    top: 38px;
+    right: 40px;
+  }
+`
 
 const PostContainer = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #252525;
+  background-color: #171717;
   color: #ffffff;
   margin-top: 30px;
   padding: 25px;
@@ -392,6 +443,23 @@ const Likes = styled.div`
     margin-top: 8px;
   }
 `;
+
+const Comments = styled.div`
+  display: flex;
+  position: absolute;
+  top: 150px;
+  left: 32px;
+  font-size: 20px;
+
+  FaRegHeart {
+    margin-left: 6px;
+  }
+
+  span {
+    font-size: 11px;
+    margin-top: 8px;
+  }
+`
 
 const TitleModal = styled.h1`
   width: 338px;
