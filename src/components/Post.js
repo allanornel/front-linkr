@@ -125,6 +125,7 @@ export default function Post(props) {
         <LikePost data={data} />
         <Comments>
           <FaRegCommentDots onClick={() => setOpenComment(!openComment)} />
+          <span>{data.commentsTotal}</span>
         </Comments>
         <Repost data={data} />
         <div className="posts">
