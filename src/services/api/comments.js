@@ -10,8 +10,13 @@ function create(token, comment, postId) {
     return axios.post(`${URL}/comment/${postId}`, comment, config(token));
 }
 
+function list(token, postId) {
+    return axios.get(`${URL}/comment/${postId}`, config(token));
+}
+
 const requestCommentApi = {
-    create
+    create,
+    list
 }
 
 export default requestCommentApi;
