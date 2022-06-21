@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { FaPencilAlt, FaRegCommentDots} from "react-icons/fa";
+import { FaPencilAlt, FaRegCommentDots } from "react-icons/fa";
 import { AiTwotoneDelete } from "react-icons/ai";
 import ReactHashtag from "@mdnm/react-hashtag";
 import Modal from "react-modal";
@@ -11,6 +11,7 @@ import tokenDecode from "jwt-decode";
 import useAuth from "../hooks/useAuth";
 import CommentPost from "./CommentPost";
 import LikePost from "./LikePost";
+import Repost from "./Repost";
 
 const customStyles = {
   content: {
@@ -33,7 +34,7 @@ const customStyles = {
 };
 
 export default function Post(props) {
-  const { token} = useAuth();
+  const { token } = useAuth();
 
   const { user, data } = props;
 
@@ -104,99 +105,96 @@ export default function Post(props) {
 
   return (
     <Div>
-    <PostContainer ref={ref}>
-      <Modal isOpen={modalOpen} onRequestClose={setModalOpen} contentLabel="Example Modal" style={customStyles}>
-        {!loadingDelet ? (
-          <>
-            <TitleModal>Are you sure you want to delete this post?</TitleModal>
-            <AreaButtonModal>
-              <Button onClick={() => setModalOpen(false)}>No, go back</Button>
-              <Button color="#1877F2" onClick={() => deletedPost(props.id)}>
-                Yes, delete it
-              </Button>
-            </AreaButtonModal>
-          </>
-        ) : (
-          <ReactLoading type="spin" color="#fff" height={90} width={90} />
-        )}
-      </Modal>
-      <img className="profile-img" src={data.image} alt="profile img" />
-      <LikePost data={data}/>
-      <Comments>
-        <FaRegCommentDots onClick={() => setOpenComment(!openComment)}/>
-      </Comments>
-      <div className="posts">
-        <div className="post-header">
-          <div className="post-content-left">
-            <p
-              onClick={() => {
-                navigate(`/user/${data.idUser}`);
-              }}
-            >
-              {data.username}
-            </p>
-            {editing ? (
-              <input
-                type="text"
-                ref={inputRef}
-                value={valueEdit}
-                onChange={(e) => handleInput(e)}
-                onKeyDown={(e) => submitInput(e, props.id)}
-                onBlur={() => setEditing(false)}
-                disabled={disabledEdit}
-              ></input>
-            ) : (
-              <h1>
-                <ReactHashtag onHashtagClick={(val) => navigate(`/hashtag/${val.replace(/#/, "")}`)}>
-                  {data.description ? data.description : " "}
-                </ReactHashtag>
-              </h1>
-            )}
-          </div>
-          {decoded.id === props.userId && (
+      <PostContainer ref={ref}>
+        <Modal isOpen={modalOpen} onRequestClose={setModalOpen} contentLabel="Example Modal" style={customStyles}>
+          {!loadingDelet ? (
             <>
-              <div className="post-content-right">
-                <div className="post-action-button">
-                  <div className="action-edit" onClick={() => editPost()}>
-                    <FaPencilAlt size={15} color="#ffffff" />
-                  </div>
-                  <div className="action-delete" onClick={() => showModal()}>
-                    <AiTwotoneDelete size={15} color="#fff" />
+              <TitleModal>Are you sure you want to delete this post?</TitleModal>
+              <AreaButtonModal>
+                <Button onClick={() => setModalOpen(false)}>No, go back</Button>
+                <Button color="#1877F2" onClick={() => deletedPost(props.id)}>
+                  Yes, delete it
+                </Button>
+              </AreaButtonModal>
+            </>
+          ) : (
+            <ReactLoading type="spin" color="#fff" height={90} width={90} />
+          )}
+        </Modal>
+        <img className="profile-img" src={data.image} alt="profile img" />
+        <LikePost data={data} />
+        <Comments>
+          <FaRegCommentDots onClick={() => setOpenComment(!openComment)} />
+        </Comments>
+        <Repost data={data} />
+        <div className="posts">
+          <div className="post-header">
+            <div className="post-content-left">
+              <p
+                onClick={() => {
+                  navigate(`/user/${data.idUser}`);
+                }}
+              >
+                {data.username}
+              </p>
+              {editing ? (
+                <input
+                  type="text"
+                  ref={inputRef}
+                  value={valueEdit}
+                  onChange={(e) => handleInput(e)}
+                  onKeyDown={(e) => submitInput(e, props.id)}
+                  onBlur={() => setEditing(false)}
+                  disabled={disabledEdit}
+                ></input>
+              ) : (
+                <h1>
+                  <ReactHashtag onHashtagClick={(val) => navigate(`/hashtag/${val.replace(/#/, "")}`)}>
+                    {data.description ? data.description : " "}
+                  </ReactHashtag>
+                </h1>
+              )}
+            </div>
+            {decoded.id === props.userId && (
+              <>
+                <div className="post-content-right">
+                  <div className="post-action-button">
+                    <div className="action-edit" onClick={() => editPost()}>
+                      <FaPencilAlt size={15} color="#ffffff" />
+                    </div>
+                    <div className="action-delete" onClick={() => showModal()}>
+                      <AiTwotoneDelete size={15} color="#fff" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </>
-          )}
-        </div>
-
-        <div className="link">
-          <div className="text">
-            <p>{data.title}</p>
-            <h1>{data.urlDescription}</h1>
-            <a target="_blank" rel="noopener noreferrer" href={data.url}>
-              {data.url}
-            </a>
+              </>
+            )}
           </div>
-          <img src={data.postImage} alt="postImage" />
+
+          <div className="link">
+            <div className="text">
+              <p>{data.title}</p>
+              <h1>{data.urlDescription}</h1>
+              <a target="_blank" rel="noopener noreferrer" href={data.url}>
+                {data.url}
+              </a>
+            </div>
+            <img src={data.postImage} alt="postImage" />
+          </div>
         </div>
-      </div>
-    </PostContainer>
-    { openComment ? 
-      <CommentPost data={data}/>
-      :
-      <></>
-    }
+      </PostContainer>
+      {openComment ? <CommentPost data={data} /> : <></>}
     </Div>
   );
 }
 
 const Div = styled.div`
-  background-color: #1E1E1E;
+  background-color: #1e1e1e;
   border-radius: 16px;
-  @media (min-width: 620px){
+  @media (min-width: 620px) {
     width: 611px;
   }
-`
+`;
 
 const PostContainer = styled.div`
   display: flex;
@@ -369,7 +367,7 @@ const Comments = styled.div`
     font-size: 11px;
     margin-top: 8px;
   }
-`
+`;
 
 const TitleModal = styled.h1`
   width: 338px;
