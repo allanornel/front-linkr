@@ -29,17 +29,27 @@ function CommentPost(props){
 
     return(
         <CommentContainer>
-            <img src={image} alt='imagem usuário'/>
-            <form onSubmit={postComment}>
-                <input 
-                    placeholder="write a comment..."
-                    onChange={(e) => setComment({comment: e.target.value})}
-                    value={comment.comment}
-                    required
-                    disabled={load}
-                    />
-                <FaRegPaperPlane onClick={postComment} className="plane" color="#F3F3F3"/>
-            </form>
+            <div className='profile'>
+                <img src={image} alt='imagem usuário'/>
+                <div>
+                    <h3>João Avatares <span> • following </span></h3>
+                    <p>Adorei esse post, ajuda muito a usar Material UI com React!</p>
+                </div>
+            </div>
+
+            <div className='comment'>
+                <img src={image} alt='imagem usuário'/>
+                <form onSubmit={postComment}>
+                    <input 
+                        placeholder="write a comment..."
+                        onChange={(e) => setComment({comment: e.target.value})}
+                        value={comment.comment}
+                        required
+                        disabled={load}
+                        />
+                    <FaRegPaperPlane onClick={postComment} className="plane" color="#F3F3F3"/>
+                </form>
+            </div>
         </CommentContainer>
     );
 }
@@ -48,33 +58,63 @@ export default CommentPost;
 
 const CommentContainer = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   background-color: #1E1E1E;
   padding: 25px;
   border-radius: 16px;
-  img{
-    width: 39px;
-    height: 39px;
-    border-radius: 50px;
+  .profile{
+    display: flex;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #353535;
+    padding-bottom: 16px;
+    img{
+        width: 39px;
+        height: 39px;
+        border-radius: 50px;
+    }
+    div{
+        margin-left: 18px;
+        h3{
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #F3F3F3;
+            span{
+                color: #565656;
+            }
+        }
+        p{
+            color: #ACACAC;
+        }
+    }
   }
-  form{
-    position: relative;
-  }
-  input{
-    background-color: #252525;
-    width: 510px;
-    height: 39px;
-    border: none;
-    border-radius: 8px;
-    padding: 15px;
-    color: #ACACAC;
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-  }
-  .plane{
-    position: absolute;
-    top: 12px;
-    right: 21px;
+
+  .comment{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    img{
+        width: 39px;
+        height: 39px;
+        border-radius: 50px;
+    }
+    form{
+        position: relative;
+    }
+    input{
+        background-color: #252525;
+        width: 510px;
+        height: 39px;
+        border: none;
+        border-radius: 8px;
+        padding: 15px;
+        color: #ACACAC;
+        font-family: 'Lato', sans-serif;
+        font-weight: 400;
+    }
+    .plane{
+        position: absolute;
+        top: 12px;
+        right: 21px;
+    }
   }
 `

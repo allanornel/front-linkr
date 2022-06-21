@@ -193,6 +193,9 @@ export default function Post(props) {
 const Div = styled.div`
   background-color: #1E1E1E;
   border-radius: 16px;
+  @media (min-width: 620px){
+    width: 611px;
+  }
 `
 
 const PostContainer = styled.div`
