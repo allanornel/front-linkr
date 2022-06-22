@@ -3,15 +3,21 @@ import axios from "axios";
 import URL from "./api.js";
 
 function config(token) {
-  return { headers: { authorization: `Bearer ${token}` } };
+    return {
+        headers: {Authorization: `Bearer ${token}`} 
+    } ;
 }
 
 function create(post, config) {
   return axios.post(`${URL}/post/create`, post, config);
 }
 
-function posts(token) {
-  return axios.get(`${URL}/timeline`, config(token));
+function posts(token, offset) {
+  return axios.post(`${URL}/timeline`, {offset: offset}, config(token));
+}
+
+function postsTotal(token) {
+    return axios.get(`${URL}/poststotal`, config(token));
 }
 
 function userPosts(token, userId) {
@@ -36,7 +42,8 @@ const requestPostsApi = {
   userPosts,
   deletePost,
   editPost,
-  getAllUsers
+  getAllUsers,
+  postsTotal
 };
 
 export default requestPostsApi;

@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import useInterval from 'use-interval';
 import { BsArrowRepeat } from 'react-icons/bs';
-
+import InfiniteScroll from "react-infinite-scroller";
 import PageContainer from "./../components/PageContainer";
 import CreatePost from "./../components/CreatePost";
 import Post from "./../components/Post";
@@ -13,12 +13,15 @@ import styled from "styled-components";
 
 function Timeline() {
 	const [loading, setLoading] = useState(true);
-	const [data, setData] = useState({});
+	const [data, setData] = useState([]);
 	const [hashtags, setHashtags] = useState({});
 	const [error, setError] = useState(false);
 	const [updatePage, setUpdatePage] = useState(0);
   const [newPosts, setNewPosts] = useState(false);
   const [newPostsTotal, setNewPostsTotal] = useState(0);
+  const [offset, setOffset] = useState(0);
+  const [postsTotal, setPostsTotal] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
 	const { token } = useAuth();
 	const navigate = useNavigate();
 	//user test DELETE
@@ -27,7 +30,6 @@ function Timeline() {
 			"https://upload.wikimedia.org/wikipedia/commons/a/af/Bananas_%28Alabama_Extension%29.jpg",
 		username: "test",
 	};
-
 	useEffect(() => {
 		if (!token) {
 			navigate("/");
@@ -35,7 +37,12 @@ function Timeline() {
 	}, []);
 
 	useEffect(() => {
-		const promise = requestPostsApi.posts(token);
+    const promisePostsTotal = requestPostsApi.postsTotal(token);
+    promisePostsTotal.then((response) => {
+      setPostsTotal(response.data[0].numberOfPosts);
+    });
+
+		const promise = requestPostsApi.posts(token, 0);
 		promise.then((response) => {
 			setData(response.data);
 			setLoading(false);
@@ -56,7 +63,6 @@ function Timeline() {
 			console.log(error.message);
 		});
 	}, [updatePage]);
-	
 
 
   useInterval(async () => {
@@ -81,6 +87,26 @@ function Timeline() {
   }, 15000);
 
 
+  async function handleUpdate() {
+    console.log("______________inside handle update_______________________")
+    try {
+      if (offset > postsTotal) {
+        setHasMore(false);
+        return; 
+      }
+
+      setOffset(offset + 10); 
+      console.log(offset)
+      const promise = requestPostsApi.posts(token, offset);
+      promise.then((response) => {
+        console.log(response.data)
+        setData(...data, response.data);
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
 
 	return (
 		<>
@@ -96,6 +122,14 @@ function Timeline() {
               <p>{newPostsTotal} new posts, load more!</p>
               <BsArrowRepeat className='reload-icon'/> 
             </BlueBox> : null}
+            <InfiniteScroll
+              pageStart={0}
+              loadMore={handleUpdate}
+              hasMore={hasMore}
+              loader={<div className="loader" key={0}>Loading ...</div>}
+              threshold={100}
+              useWindow={false}              
+            >
 						{loading ? (
 							<h4>Loading...</h4>
 						) : error ? (
@@ -116,6 +150,7 @@ function Timeline() {
 						) : (
 							<h4>There are no posts yet</h4>
 						)}
+            </InfiniteScroll>
 					</div>
 					<ContainerHashtag>
 						<div>
