@@ -21,18 +21,18 @@ function Header(props) {
   };
 
   useEffect(() => {
-        const promise = requestPostsApi.getAllUsers(token);
-        promise.then((response) => {
-          setAllUsers(response.data);
-        });
-        promise.catch((error) => {
-          console.log(error.message);
-        });
+    const promise = requestPostsApi.getAllUsers(token);
+    promise.then((response) => {
+      setAllUsers(response.data);
+    });
+    promise.catch((error) => {
+      console.log(error.message);
+    });
   }, [search]);
 
   async function handleSearch(e) {
     const { value } = e.target;
-    if(!value) return setClose(true);
+    if (!value) return setClose(true);
     setClose(false);
     setSearch(allUsers.filter((user) => user.username.includes(value)));
   }
@@ -42,29 +42,27 @@ function Header(props) {
       <Container>
         <h1 onClick={() => navigate("/timeline")}>linkr</h1>
         <SearchBar>
-            <DebounceInput
-              className="debounce-input" 
-              debounceTimeout={300}
-              min="3"
-              placeholder="Search for people"
-              onChange={(event) => handleSearch(event)}
-            />
-            <SearchedUsers close={close}>
-              {search.map((user) => {
-                return (
-                  <Link to={`/user/${user.id}`} key={search.indexOf(user)} className='link-user'>
-                    <li>
-                      <img src={user.picture} />
-                      <span>
-                        {user.username}
-                      </span>
-                    </li>
-                  </Link>
-                );
-              })}
-            </SearchedUsers>
-            <IoMdSearch className='search-icon'/>
-          </SearchBar>
+          <DebounceInput
+            className="debounce-input"
+            debounceTimeout={300}
+            min="3"
+            placeholder="Search for people"
+            onChange={(event) => handleSearch(event)}
+          />
+          <SearchedUsers close={close}>
+            {search.map((user) => {
+              return (
+                <Link to={`/user/${user.id}`} key={search.indexOf(user)} className="link-user">
+                  <li>
+                    <img src={user.picture} />
+                    <span>{user.username}</span>
+                  </li>
+                </Link>
+              );
+            })}
+          </SearchedUsers>
+          <IoMdSearch className="search-icon" />
+        </SearchBar>
         <div onClick={() => setToggle(!toggle)}>
           {toggle ? <IoIosArrowUp color="#FFFFFF" size={18} strokeWidth="5" /> : <IoIosArrowDown color="#FFFFFF" size={18} strokeWidth="5" />}
           <img src={image} alt="userImage" />
@@ -73,7 +71,7 @@ function Header(props) {
           <Bar onClick={() => setToggle(false)}>
             <p onClick={() => handleLogout()}>Logout</p>
           </Bar>
-          ) : (
+        ) : (
           <></>
         )}
       </Container>
@@ -139,7 +137,7 @@ const SearchBar = styled.div`
     color: #c6c6c6;
     z-index: 3;
   }
-`
+`;
 
 const SearchedUsers = styled.ul`
   background-color: #e7e7e7;
@@ -151,8 +149,8 @@ const SearchedUsers = styled.ul`
   right: 0;
   top: 30px;
   z-index: 2;
-  display: ${props => props.close ? 'none' : 'inline'};
-  
+  display: ${(props) => (props.close ? "none" : "inline")};
+
   .link-user {
     text-decoration: none;
   }
@@ -176,7 +174,7 @@ const SearchedUsers = styled.ul`
 
 const Bar = styled.section`
   position: fixed;
-  right:0;
+  right: 0;
   top: 72px;
   width: 150px;
   height: 43px;
@@ -193,4 +191,3 @@ const Bar = styled.section`
     color: #ffffff;
   }
 `;
-
