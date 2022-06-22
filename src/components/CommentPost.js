@@ -47,12 +47,15 @@ function CommentPost(props){
         <CommentContainer>
             { 
                 comments.map((item) => {
-                    const { comment, username, picture } = item;
+                    const { comment, username, picture, userStatus } = item;
                     return(
                         <div className='profile'>
                             <img src={picture} alt='imagem usuário'/>
                             <div>
-                                <h3>{username}<span></span></h3>
+                                <h3>
+                                    {username}
+                                    <span>{userStatus ? ` • ${userStatus}` : ""}</span>
+                                </h3>
                                 <p>{comment}</p>
                             </div>
                         </div>
