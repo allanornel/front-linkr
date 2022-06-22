@@ -1,16 +1,29 @@
 import styled from 'styled-components';
 import { FaRegPaperPlane } from "react-icons/fa";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import useAuth from "../hooks/useAuth";
 import requestCommentApi from './../services/api/comments';
 
 function CommentPost(props){
-    const { data } = props;
+    const { data, setUpdatePage } = props;
     const { token, image } = useAuth();
 
+    const [ comments, setComments ] = useState([]);
     const [ comment, setComment ] = useState({comment:""});
     const [ load, setLoad ] = useState(false);
+    const [ update, setUpdate ] = useState(0);
+
+    useEffect(() => {
+        const promise = requestCommentApi.list(token, data.id);
+        promise.then((response) => {
+            const { data } = response;
+            setComments([...data]);
+        });
+        promise.catch((e) => {
+            console.log(e.message);
+        })
+    }, [update]);
 
     function postComment(e){
         e.preventDefault();
@@ -19,6 +32,9 @@ function CommentPost(props){
         promise.then((response) => {
             const { status } = response;
             console.log(status);
+            setComment({comment:""});
+            setUpdate(update + 1);
+            setUpdatePage(Math.floor(Math.random() * 10));
             setLoad(false);
         });
         promise.catch((e) => {
@@ -29,13 +45,20 @@ function CommentPost(props){
 
     return(
         <CommentContainer>
-            <div className='profile'>
-                <img src={image} alt='imagem usuário'/>
-                <div>
-                    <h3>João Avatares <span> • following </span></h3>
-                    <p>Adorei esse post, ajuda muito a usar Material UI com React!</p>
-                </div>
-            </div>
+            { 
+                comments.map((item) => {
+                    const { comment, username, picture } = item;
+                    return(
+                        <div className='profile'>
+                            <img src={picture} alt='imagem usuário'/>
+                            <div>
+                                <h3>{username}<span></span></h3>
+                                <p>{comment}</p>
+                            </div>
+                        </div>
+                    )
+                })
+            }
 
             <div className='comment'>
                 <img src={image} alt='imagem usuário'/>
