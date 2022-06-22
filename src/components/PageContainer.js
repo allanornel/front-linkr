@@ -48,6 +48,24 @@ const Section = styled.section`
 		justify-content: center;
 		width: 800px;
 	}
+
+  .loader {
+    display: flex;
+    width: 100%;
+    height: 100px
+    justify-content: center;
+    align-items: center;
+    
+    p {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 26px;
+      letter-spacing: 0.05em;
+      color: #6D6D6D;
+    }
+  }
 `;
 
 const Container = styled.div`

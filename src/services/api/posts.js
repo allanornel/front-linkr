@@ -12,8 +12,8 @@ function create(post, config) {
   return axios.post(`${URL}/post/create`, post, config);
 }
 
-function posts(token, offset) {
-  return axios.post(`${URL}/timeline`, {offset: offset}, config(token));
+function posts(token, limit) {
+  return axios.post(`${URL}/timeline`, {limit}, config(token));
 }
 
 function postsTotal(token) {

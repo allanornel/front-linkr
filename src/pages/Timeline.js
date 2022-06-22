@@ -19,7 +19,7 @@ function Timeline() {
 	const [updatePage, setUpdatePage] = useState(0);
   const [newPosts, setNewPosts] = useState(false);
   const [newPostsTotal, setNewPostsTotal] = useState(0);
-  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(10);
   const [postsTotal, setPostsTotal] = useState(0);
   const [hasMore, setHasMore] = useState(false);
 	const { token } = useAuth();
@@ -42,10 +42,11 @@ function Timeline() {
       setPostsTotal(response.data[0].numberOfPosts);
     });
 
-		const promise = requestPostsApi.posts(token, 0);
+		const promise = requestPostsApi.posts(token, limit);
 		promise.then((response) => {
 			setData(response.data);
 			setLoading(false);
+      setHasMore(true);
 		});
 		promise.catch((error) => {
 			setError(true);
@@ -64,9 +65,15 @@ function Timeline() {
 		});
 	}, [updatePage]);
 
+  
 
   useInterval(async () => {
     try {
+      /*
+      if (limit < postsTotal) {
+        setHasMore(true);
+      }
+      */
       requestPostsApi.posts(token).then((response) => {
         let lastPostIndex = 0;
         const newPosts = response.data;
@@ -89,22 +96,20 @@ function Timeline() {
 
   async function handleUpdate() {
     console.log("______________inside handle update_______________________")
-    try {
-      if (offset > postsTotal) {
-        setHasMore(false);
-        return; 
-      }
-
-      setOffset(offset + 10); 
-      console.log(offset)
-      const promise = requestPostsApi.posts(token, offset);
-      promise.then((response) => {
-        console.log(response.data)
-        setData(...data, response.data);
-      });
-    } catch (error) {
-      console.log(error.message);
+    console.log(limit)
+    setHasMore(false);
+    
+    if (limit > postsTotal) {
+      return; 
     }
+    setLimit(limit + 10); 
+    setUpdatePage(updatePage + 1);  
+      /*
+      requestPostsApi.posts(token, limit + 10).then((response) => {
+        console.log(response.data)
+        setData([...data, ...response.data]);
+      });
+      */
   }
 
 
@@ -126,9 +131,9 @@ function Timeline() {
               pageStart={0}
               loadMore={handleUpdate}
               hasMore={hasMore}
-              loader={<div className="loader" key={0}>Loading ...</div>}
-              threshold={100}
-              useWindow={false}              
+              loader={<div className="loader" key={0}><p>Loading ...</p></div>}
+              useWindow={true}
+              threshold={1}              
             >
 						{loading ? (
 							<h4>Loading...</h4>
@@ -138,6 +143,7 @@ function Timeline() {
 								the page
 							</h4>
 						) : data.length > 0 ? (
+              
 							data.map((post) => (
 								<Post
 									user={user}
