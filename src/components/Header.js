@@ -34,6 +34,7 @@ function Header(props) {
     const { value } = e.target;
     if (!value) return setClose(true);
     setClose(false);
+    allUsers.sort((a, b) => (a.following === b.following ? 0 : a.following ? -1 : 1));
     setSearch(allUsers.filter((user) => user.username.includes(value)));
   }
 
@@ -54,8 +55,10 @@ function Header(props) {
               return (
                 <Link to={`/user/${user.id}`} key={search.indexOf(user)} className="link-user">
                   <li>
-                    <img src={user.picture} />
-                    <span>{user.username}</span>
+                    <img src={user.picture} alt="" />
+                    <span>
+                      {user.username} <SearchFollowing>{user.following ? "• following" : ""}</SearchFollowing>
+                    </span>
                   </li>
                 </Link>
               );
@@ -170,6 +173,15 @@ const SearchedUsers = styled.ul`
     line-height: 23px;
     color: #515151;
   }
+`;
+
+const SearchFollowing = styled.span`
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 23px;
+  color: #c5c5c5 !important;
 `;
 
 const Bar = styled.section`
