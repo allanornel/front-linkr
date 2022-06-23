@@ -37,7 +37,7 @@ const customStyles = {
 export default function Post(props) {
   const { token } = useAuth();
 
-  const { user, data } = props;
+  const { userId, data } = props;
 
   const ref = useRef(null);
   const inputRef = useRef(null);
@@ -119,9 +119,12 @@ export default function Post(props) {
   return (
     <Div>
       {data.repost ? (
-        <>
-          <FaRetweet /> Re-posted by {data.shareUserId}`
-        </>
+        <Retweet>
+          <FaRetweet size={25} />
+          <p>
+            Re-posted by <span>{data.shareUserId === userId ? "you" : data.shareUsername}</span>
+          </p>
+        </Retweet>
       ) : (
         ""
       )}
@@ -212,8 +215,36 @@ export default function Post(props) {
 const Div = styled.div`
   background-color: #1e1e1e;
   border-radius: 16px;
+  margin-top: 30px;
+
   @media (min-width: 620px) {
     width: 611px;
+  }
+`;
+
+const Retweet = styled.div`
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  width: 100%;
+  background: #1e1e1e;
+  border-radius: 16px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #ffffff;
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 13px;
+
+  p {
+    margin-left: 4px;
+  }
+
+  span {
+    font-weight: 700;
   }
 `;
 
@@ -222,7 +253,6 @@ const PostContainer = styled.div`
   flex-direction: row;
   background-color: #171717;
   color: #ffffff;
-  margin-top: 30px;
   padding: 25px;
   position: relative;
   border-radius: 16px;
