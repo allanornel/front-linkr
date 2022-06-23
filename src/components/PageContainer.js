@@ -13,13 +13,16 @@ import requestFollow from '../services/api/follower'
 function PageContainer({ title, children, follow, changeStateButton, followParams }) {
 	const [toggle, setToggle] = useState(false);
 	const [close, setClose] = useState(true);
+	const [disableButton, setDisableButton] = useState(false)
 
   const {  token } = useAuth();
 
 
 	const following = async (from, to) => {
 		try {
+			setDisableButton(true)
 			await requestFollow.requestFollow(token, from, to)
+			setDisableButton(false)
 			changeStateButton({ ...followParams, following: !followParams.following })
 		} catch (error) {
 			alert('erro ao seguir user')
@@ -34,7 +37,7 @@ function PageContainer({ title, children, follow, changeStateButton, followParam
 					setToggle(false);
 					setClose(true)
 					}}>	
-					<PageTitle>{title} {follow?.show &&  <Button color={follow.following ? '#fff' : '#1877F2'} onClick={() => following(follow.from, follow.to)}>{follow.following ? 'Unfollow' : 'Follow'}</Button>} </PageTitle>
+					<PageTitle>{title} {follow?.show &&  <Button color={follow.following ? '#fff' : '#1877F2'} onClick={() => following(follow.from, follow.to)} disabled={disableButton}>{follow.following ? 'Unfollow' : 'Follow'}</Button>} </PageTitle>
 					<Container>{children}</Container>
 				</Section>
 			</Div>
