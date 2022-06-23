@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import PageContainer from "./../components/PageContainer";
 import Post from "./../components/Post";
 import requestPostsApi from "./../services/api/posts";
-import requestFollower from "./../services/api/follower"
+import requestFollower from "./../services/api/follower";
 import requestHashtagsApi from "../services/api/hashtags";
 import styled from "styled-components";
 
@@ -19,10 +19,10 @@ function Timeline() {
   const [followParams, setFolowParams] = useState({
     following: false,
     show: false,
-    from: 0, 
+    from: 0,
     to: 0,
   });
-  const {  token } = useAuth();
+  const { token } = useAuth();
   const navigate = useNavigate();
   const { user } = useParams();
   useEffect(() => {
@@ -31,9 +31,7 @@ function Timeline() {
     }
   }, []);
 
-  const userLogged = jwtDecode(token)
-
-
+  const userLogged = jwtDecode(token);
 
   useEffect(() => {
     const promise = requestPostsApi.userPosts(token, user);
@@ -58,13 +56,15 @@ function Timeline() {
       //setLoading(false);
       console.log(error.message);
     });
-  }, [updatePage]);
+  }, [updatePage, user]);
 
   useEffect(() => {
-    requestFollower.follower(token, userLogged.id, user).then(({data}) => 
-     setFolowParams({ ...followParams, following: data.iFollow, show: userLogged.id !== parseInt(user), from: userLogged.id, to: user 
-    }) )
-  }, [])
+    requestFollower
+      .follower(token, userLogged.id, user)
+      .then(({ data }) =>
+        setFolowParams({ ...followParams, following: data.iFollow, show: userLogged.id !== parseInt(user), from: userLogged.id, to: user })
+      );
+  }, []);
   /*
   useEffect(() => {
     const promise = requestHashtagsApi.getHashtags();
@@ -78,7 +78,6 @@ function Timeline() {
     });
   }, []);
 */
-
 
   return (
     <>
@@ -137,7 +136,7 @@ const ContainerHashtag = styled.div`
   color: #ffffff;
   font-style: normal;
   font-weight: 700;
-  
+
   div {
     padding-bottom: 12px;
     margin-bottom: 22px;
