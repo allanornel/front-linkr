@@ -8,6 +8,7 @@ import requestPostsApi from "./../services/api/posts";
 import requestFollower from "./../services/api/follower";
 import requestHashtagsApi from "../services/api/hashtags";
 import styled from "styled-components";
+import InfiniteScroll from "react-infinite-scroller";
 
 function Timeline() {
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,10 @@ function Timeline() {
   const { token } = useAuth();
   const navigate = useNavigate();
   const { user } = useParams();
+  const [limit, setLimit] = useState(10);
+  const [hasMore, setHasMore] = useState(false);
+  const [postsTotal, setPostsTotal] = useState(0);
+
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -34,12 +39,18 @@ function Timeline() {
   const userLogged = jwtDecode(token);
 
   useEffect(() => {
-    const promise = requestPostsApi.userPosts(token, user);
+    const promisePostsTotal = requestPostsApi.postsTotal(token);
+    promisePostsTotal.then((response) => {
+      setPostsTotal(response.data[0].numberOfPosts);
+    });
+
+    const promise = requestPostsApi.userPosts(token, user, limit);
     promise.then((response) => {
       const { data } = response;
       setData(data.posts);
       setUsername(data.name);
       setLoading(false);
+      setHasMore(true);
     });
     promise.catch((error) => {
       // setError(true);
@@ -65,19 +76,17 @@ function Timeline() {
         setFolowParams({ ...followParams, following: data.iFollow, show: userLogged.id !== parseInt(user), from: userLogged.id, to: user })
       );
   }, []);
-  /*
-  useEffect(() => {
-    const promise = requestHashtagsApi.getHashtags();
-    promise.then((response) => {
-      setHashtags(response.data);
-      setLoading(false);
-    });
-    promise.catch((error) => {
-      setLoading(false);
-      console.log(error.message);
-    });
-  }, []);
-*/
+
+
+  async function handleUpdate() {
+    setHasMore(false);
+    
+    if (limit > postsTotal) {
+      return; 
+    }
+    setLimit(limit + 10); 
+    setUpdatePage(updatePage + 1);  
+  }
 
   return (
     <>
@@ -85,6 +94,14 @@ function Timeline() {
         {/* <Button /> */}
         <DivFlex>
           <div>
+            <InfiniteScroll
+                pageStart={0}
+                loadMore={handleUpdate}
+                hasMore={hasMore}
+                loader={<div className="loader" key={0}><p>Loading ...</p></div>}
+                useWindow={true}
+                threshold={1}              
+            >
             {loading ? (
               <h4>Loading...</h4>
             ) : error ? (
@@ -94,6 +111,7 @@ function Timeline() {
             ) : (
               <h4>There are no posts yet</h4>
             )}
+            </InfiniteScroll>
           </div>
           <ContainerHashtag>
             <div>

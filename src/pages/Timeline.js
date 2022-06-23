@@ -66,11 +66,6 @@ function Timeline() {
 
   useInterval(async () => {
     try {
-      /*
-      if (limit < postsTotal) {
-        setHasMore(true);
-      }
-      */
       requestPostsApi.posts(token).then((response) => {
         let lastPostIndex = 0;
         const newPosts = response.data;
@@ -88,21 +83,15 @@ function Timeline() {
   }, 15000);
 
   async function handleUpdate() {
-    console.log("______________inside handle update_______________________");
-    console.log(limit);
+
     setHasMore(false);
 
     if (limit > postsTotal) {
       return;
     }
-    setLimit(limit + 10);
-    setUpdatePage(updatePage + 1);
-    /*
-      requestPostsApi.posts(token, limit + 10).then((response) => {
-        console.log(response.data)
-        setData([...data, ...response.data]);
-      });
-      */
+    setLimit(limit + 10); 
+    setUpdatePage(updatePage + 1);  
+
   }
 
   return (

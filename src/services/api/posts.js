@@ -20,8 +20,8 @@ function postsTotal(token) {
     return axios.get(`${URL}/poststotal`, config(token));
 }
 
-function userPosts(token, userId) {
-  return axios.get(`${URL}/user/${userId}`, config(token));
+function userPosts(token, userId, limit) {
+  return axios.post(`${URL}/user/${userId}`,{limit}, config(token));
 }
 
 function deletePost(token, idPost) {
