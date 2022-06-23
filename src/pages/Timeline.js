@@ -24,12 +24,13 @@ function Timeline() {
   const [hasMore, setHasMore] = useState(false);
 	const { token } = useAuth();
 	const navigate = useNavigate();
-	//user test DELETE
+  //user test DELETE
 	const user = {
 		image:
 			"https://upload.wikimedia.org/wikipedia/commons/a/af/Bananas_%28Alabama_Extension%29.jpg",
 		username: "test",
 	};
+	
 	useEffect(() => {
 		if (!token) {
 			navigate("/");
@@ -69,11 +70,6 @@ function Timeline() {
 
   useInterval(async () => {
     try {
-      /*
-      if (limit < postsTotal) {
-        setHasMore(true);
-      }
-      */
       requestPostsApi.posts(token).then((response) => {
         let lastPostIndex = 0;
         const newPosts = response.data;
@@ -95,8 +91,6 @@ function Timeline() {
 
 
   async function handleUpdate() {
-    console.log("______________inside handle update_______________________")
-    console.log(limit)
     setHasMore(false);
     
     if (limit > postsTotal) {
@@ -104,12 +98,6 @@ function Timeline() {
     }
     setLimit(limit + 10); 
     setUpdatePage(updatePage + 1);  
-      /*
-      requestPostsApi.posts(token, limit + 10).then((response) => {
-        console.log(response.data)
-        setData([...data, ...response.data]);
-      });
-      */
   }
 
 

@@ -10,8 +10,8 @@ function getHashtags() {
   return axios.get(`${URL}/hashtags`);
 }
 
-function getPostsByHashtag(hashtag) {
-  return axios.get(`${URL}/hashtags/${hashtag}`);
+function getPostsByHashtag(hashtag, limit) {
+  return axios.get(`${URL}/hashtags/${hashtag}`, {body: {limit}});
 }
 
 const requestHashtagsApi = {
