@@ -35,7 +35,7 @@ function Header(props) {
     if (!value) return setClose(true);
     setClose(false);
     allUsers.sort((a, b) => (a.following === b.following ? 0 : a.following ? -1 : 1));
-    setSearch(allUsers.filter((user) => user.username.includes(value)));
+    setSearch(allUsers.filter((user) => user.username.toLowerCase().includes(value.toLowerCase())));
   }
 
   return (
