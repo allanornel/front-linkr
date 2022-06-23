@@ -6,6 +6,7 @@ import ReactHashtag from "@mdnm/react-hashtag";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import requestApi from "../services/api/posts";
+import requestCommentsApi from "../services/api/comments";
 import ReactLoading from "react-loading";
 import tokenDecode from "jwt-decode";
 import useAuth from "../hooks/useAuth";
@@ -47,6 +48,7 @@ export default function Post(props) {
   const [disabledEdit, setDisableEdit] = useState(false);
   const [valueEdit, setValueEdit] = useState(data.description);
   const [openComment, setOpenComment] = useState(false);
+  const [countComments, setCountComments] = useState(0);
   const decoded = tokenDecode(token);
 
   const navigate = useNavigate();
@@ -64,6 +66,16 @@ export default function Post(props) {
       inputRef.current.focus();
     }
   }, [editing]);
+
+  useEffect(() => {
+    if (data) {
+      const promise = requestCommentsApi.getCommentCount(token, data.id);
+      promise.then((res) => {
+        const { data } = res;
+        setCountComments(data);
+      });
+    }
+  }, []);
 
   function handleInput(e) {
     setValueEdit(e.target.value);
@@ -125,7 +137,7 @@ export default function Post(props) {
         <LikePost data={data} />
         <Comments>
           <FaRegCommentDots onClick={() => setOpenComment(!openComment)} />
-          <span>{data.commentsTotal} comments</span>
+          <span>{countComments} comments</span>
         </Comments>
         <Repost data={data} />
         <div className="posts">
