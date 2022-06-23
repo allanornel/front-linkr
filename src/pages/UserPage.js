@@ -8,11 +8,11 @@ import requestPostsApi from "./../services/api/posts";
 import requestFollower from "./../services/api/follower"
 import requestHashtagsApi from "../services/api/hashtags";
 import styled from "styled-components";
-import { AiFillPieChart } from "react-icons/ai";
 
 function Timeline() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([{ username: "" }]);
+  const [username, setUsername] = useState("");
   const [hashtags, setHashtags] = useState({});
   const [error, setError] = useState(false);
   const [updatePage, setUpdatePage] = useState(0);
@@ -38,7 +38,9 @@ function Timeline() {
   useEffect(() => {
     const promise = requestPostsApi.userPosts(token, user);
     promise.then((response) => {
-      setData(response.data);
+      const { data } = response;
+      setData(data.posts);
+      setUsername(data.name);
       setLoading(false);
     });
     promise.catch((error) => {
@@ -80,7 +82,7 @@ function Timeline() {
 
   return (
     <>
-      <PageContainer title={`${data[0]?.username}'s posts`} follow={followParams} changeStateButton={setFolowParams} followParams={followParams}>
+      <PageContainer title={`${username}'s posts`} follow={followParams} changeStateButton={setFolowParams} followParams={followParams}>
         {/* <Button /> */}
         <DivFlex>
           <div>
