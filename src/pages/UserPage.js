@@ -63,6 +63,7 @@ function Timeline() {
      setFolowParams({ ...followParams, following: data.iFollow, show: userLogged.id !== parseInt(user), from: userLogged.id, to: user 
     }) )
   }, [])
+  }, [updatePage, user]);
   /*
   useEffect(() => {
     const promise = requestHashtagsApi.getHashtags();
@@ -135,7 +136,7 @@ const ContainerHashtag = styled.div`
   color: #ffffff;
   font-style: normal;
   font-weight: 700;
-  
+
   div {
     padding-bottom: 12px;
     margin-bottom: 22px;

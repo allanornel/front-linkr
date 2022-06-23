@@ -184,7 +184,7 @@ export default function Post(props) {
           </div>
         </div>
       </PostContainer>
-      {openComment ? <CommentPost setUpdatePage={props.setUpdatePage}  data={data} /> : <></>}
+      {openComment ? <CommentPost setUpdatePage={props.setUpdatePage} data={data} /> : <></>}
     </Div>
   );
 }
