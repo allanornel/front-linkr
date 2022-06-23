@@ -151,6 +151,7 @@ function Timeline() {
 									id={post.id}
 									userId={post.idUser}
 									setUpdatePage={setUpdatePage}
+									updatePage={updatePage}
 								/>
 							))
 						) : (

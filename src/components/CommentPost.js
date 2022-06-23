@@ -54,13 +54,14 @@ function CommentPost(props) {
             <img src={picture} alt="imagem usuário" />
             <div>
               <h3>
-                <span
+                <b
                   onClick={() => {
                     navigate(`/user/${userId}`);
+                    window.location.reload();
                   }}
                 >
                   {username}
-                </span>
+                </b>
                 <span>{userStatus ? ` • ${userStatus}` : ""}</span>
               </h3>
               <p>{comment}</p>
