@@ -43,7 +43,7 @@ function Timeline() {
       //setLoading(false);
       console.log(error.message);
     });
-  }, [updatePage]);
+  }, [updatePage, user]);
   /*
   useEffect(() => {
     const promise = requestHashtagsApi.getHashtags();
@@ -113,7 +113,7 @@ const ContainerHashtag = styled.div`
   color: #ffffff;
   font-style: normal;
   font-weight: 700;
-  
+
   div {
     padding-bottom: 12px;
     margin-bottom: 22px;
