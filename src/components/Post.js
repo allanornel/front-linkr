@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import { FaPencilAlt, FaRegCommentDots } from "react-icons/fa";
+import { FaPencilAlt, FaRegCommentDots, FaRetweet } from "react-icons/fa";
 import { AiTwotoneDelete } from "react-icons/ai";
 import ReactHashtag from "@mdnm/react-hashtag";
 import Modal from "react-modal";
@@ -113,11 +113,18 @@ export default function Post(props) {
     });
     promise.catch((e) => {
       console.log(e.message);
-    })
+    });
   }, [props.updatePage]);
-
+  console.log(data);
   return (
     <Div>
+      {data.repost ? (
+        <>
+          <FaRetweet /> Re-posted by {data.shareUserId}`
+        </>
+      ) : (
+        ""
+      )}
       <PostContainer ref={ref}>
         <Modal isOpen={modalOpen} onRequestClose={setModalOpen} contentLabel="Example Modal" style={customStyles}>
           {!loadingDelet ? (
