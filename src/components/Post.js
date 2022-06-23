@@ -12,6 +12,7 @@ import useAuth from "../hooks/useAuth";
 import CommentPost from "./CommentPost";
 import LikePost from "./LikePost";
 import Repost from "./Repost";
+import requestCommentApi from "../services/api/comments";
 
 const customStyles = {
   content: {
@@ -103,6 +104,19 @@ export default function Post(props) {
     }
   };
 
+  const [numberComments, setNumberComments] = useState(0);
+
+  useEffect(() => {
+    const promise = requestCommentApi.count(token, data.id);
+    promise.then((response) => {
+      const { data } = response;
+      setNumberComments(data);
+    });
+    promise.catch((e) => {
+      console.log(e.message);
+    })
+  }, [props.updatePage]);
+
   return (
     <Div>
       <PostContainer ref={ref}>
@@ -125,7 +139,7 @@ export default function Post(props) {
         <LikePost data={data} />
         <Comments>
           <FaRegCommentDots onClick={() => setOpenComment(!openComment)} />
-          <span>{data.commentsTotal} comments</span>
+          <span>{numberComments} comments</span>
         </Comments>
         <Repost data={data} />
         <div className="posts">

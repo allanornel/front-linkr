@@ -14,9 +14,14 @@ function list(token, postId) {
     return axios.get(`${URL}/comment/${postId}`, config(token));
 }
 
+function count(token, postId) {
+    return axios.get(`${URL}/comment/count/${postId}`, config(token));
+}
+
 const requestCommentApi = {
     create,
-    list
+    list,
+    count
 }
 
 export default requestCommentApi;
