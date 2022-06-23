@@ -48,6 +48,7 @@ export default function Post(props) {
   const [disabledEdit, setDisableEdit] = useState(false);
   const [valueEdit, setValueEdit] = useState(data.description);
   const [openComment, setOpenComment] = useState(false);
+  const [numberComments, setNumberComments] = useState(0);
   const decoded = tokenDecode(token);
 
   const navigate = useNavigate();
@@ -103,8 +104,6 @@ export default function Post(props) {
       setModalOpen(false);
     }
   };
-
-  const [numberComments, setNumberComments] = useState(0);
 
   useEffect(() => {
     const promise = requestCommentApi.count(token, data.id);

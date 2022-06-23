@@ -57,6 +57,7 @@ function CommentPost(props) {
                 <b
                   onClick={() => {
                     navigate(`/user/${userId}`);
+                    window.location.reload();
                   }}
                 >
                   {username}
