@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
+import jwtDecode from "jwt-decode";
 import { useNavigate, useParams } from "react-router-dom";
 import PageContainer from "./../components/PageContainer";
 import Post from "./../components/Post";
 import requestPostsApi from "./../services/api/posts";
+import requestFollower from "./../services/api/follower"
 import requestHashtagsApi from "../services/api/hashtags";
 import styled from "styled-components";
+import { AiFillPieChart } from "react-icons/ai";
 
 function Timeline() {
   const [loading, setLoading] = useState(true);
@@ -13,7 +16,13 @@ function Timeline() {
   const [hashtags, setHashtags] = useState({});
   const [error, setError] = useState(false);
   const [updatePage, setUpdatePage] = useState(0);
-  const { token } = useAuth();
+  const [followParams, setFolowParams] = useState({
+    following: false,
+    show: false,
+    from: 0, 
+    to: 0,
+  });
+  const {  token } = useAuth();
   const navigate = useNavigate();
   const { user } = useParams();
   useEffect(() => {
@@ -21,6 +30,10 @@ function Timeline() {
       navigate("/");
     }
   }, []);
+
+  const userLogged = jwtDecode(token)
+
+
 
   useEffect(() => {
     const promise = requestPostsApi.userPosts(token, user);
@@ -43,7 +56,13 @@ function Timeline() {
       //setLoading(false);
       console.log(error.message);
     });
-  }, [updatePage, user]);
+  }, [updatePage]);
+
+  useEffect(() => {
+    requestFollower.follower(token, userLogged.id, user).then(({data}) => 
+     setFolowParams({ ...followParams, following: data.iFollow, show: userLogged.id !== parseInt(user), from: userLogged.id, to: user 
+    }) )
+  }, [])
   /*
   useEffect(() => {
     const promise = requestHashtagsApi.getHashtags();
@@ -57,9 +76,12 @@ function Timeline() {
     });
   }, []);
 */
+
+
   return (
     <>
-      <PageContainer title={`${data[0]?.username}'s posts`}>
+      <PageContainer title={`${data[0]?.username}'s posts`} follow={followParams} changeStateButton={setFolowParams} followParams={followParams}>
+        {/* <Button /> */}
         <DivFlex>
           <div>
             {loading ? (
@@ -113,7 +135,7 @@ const ContainerHashtag = styled.div`
   color: #ffffff;
   font-style: normal;
   font-weight: 700;
-
+  
   div {
     padding-bottom: 12px;
     margin-bottom: 22px;
@@ -141,4 +163,14 @@ const ContainerHashtag = styled.div`
   @media only screen and (max-width: 800px) {
     display: none;
   }
+`;
+
+const Button = styled.button`
+  width: 134px;
+  height: 37px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  background: ${(props) => (props.color ? props.color : "#fff")};
+  color: ${(props) => (props.color !== "#1877F2" ? "#1877F2" : "#fff")};
 `;
