@@ -14,9 +14,14 @@ function requestFollow(token, from, to){
   return axios.post(`${URL}/follower`, {from, to}, config(token));
 }
 
+function followerSomeone(token, idUser) {
+  return axios.get(`${URL}/followsomeone?id=${idUser}`, config(token))
+}
+
 const requestFollower = {
   follower,
-  requestFollow
+  requestFollow,
+  followerSomeone
 }
 
 export default requestFollower

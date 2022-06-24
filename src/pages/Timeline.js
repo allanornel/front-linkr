@@ -9,6 +9,7 @@ import CreatePost from "./../components/CreatePost";
 import Post from "./../components/Post";
 import requestPostsApi from "./../services/api/posts";
 import requestHashtagsApi from "../services/api/hashtags";
+import requestFollower from "../services/api/follower"
 import styled from "styled-components";
 
 function Timeline() {
@@ -23,9 +24,9 @@ function Timeline() {
   const [postsTotal, setPostsTotal] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [userId, setUserId] = useState(0);
+  const [followeSomeone, setFollowSomeone] = useState(true)
   const { token } = useAuth();
   const navigate = useNavigate();
-
   useEffect(() => {
     if (!token) {
       navigate("/");
@@ -60,6 +61,11 @@ function Timeline() {
       //setLoading(false);
       console.log(error.message);
     });
+
+    const followerSomeone = requestFollower.followerSomeone(token, userId)
+    followerSomeone.then(({data}) => {
+      setFollowSomeone(data.follow)
+    })
   }, [updatePage]);
 
   useInterval(async () => {
@@ -141,9 +147,16 @@ function Timeline() {
                   <Post user={userId} data={post} id={post.id} userId={post.idUser} setUpdatePage={setUpdatePage} updatePage={updatePage} />
                 ))
               ) : (
-                <h4>There are no posts yet</h4>
+                <h4>
+                  {!followeSomeone && 'You don\'t follow anyone yet. Search for new friends!'}
+                  {(followeSomeone && data.length === 0) && 'No posts found from your friends'}
+                </h4>
+              
               )}
+              {console.log(followeSomeone, loading, data.length === 0)}
             </InfiniteScroll>
+            {/* {!followeSomeone && <h4>You don't follow anyone yet. Search for new friends!</h4>} */}
+
           </div>
           <ContainerHashtag>
             <div>
