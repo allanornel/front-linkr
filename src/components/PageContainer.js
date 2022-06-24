@@ -9,7 +9,7 @@ import BoxHashtag from "./BoxHashtag";
 import useAuth from "../hooks/useAuth";
 import requestFollow from '../services/api/follower'
 
-function PageContainer({ title, children, follow, changeStateButton, followParams }) {
+function PageContainer({ title, picture, children, follow, changeStateButton, followParams }) {
 	const [toggle, setToggle] = useState(false);
 	const [close, setClose] = useState(true);
 	const [disableButton, setDisableButton] = useState(false)
