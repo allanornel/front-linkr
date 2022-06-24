@@ -116,11 +116,18 @@ const Container = styled.header`
 
 const SearchBar = styled.div`
   display: flex;
-  position: relative;
+  position: absolute;
+  left: 35%;
   align-items: center;
   justify-content: center;
   width: 30%;
 
+  @media (max-width: 620px) {
+    top: 75px;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+  }
   .debounce-input {
     width: 100%;
     height: 40px;
