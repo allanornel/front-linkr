@@ -8,7 +8,6 @@ import PageContainer from "./../components/PageContainer";
 import CreatePost from "./../components/CreatePost";
 import Post from "./../components/Post";
 import requestPostsApi from "./../services/api/posts";
-import requestHashtagsApi from "../services/api/hashtags";
 import requestFollower from "../services/api/follower"
 import styled from "styled-components";
 
@@ -48,16 +47,6 @@ function Timeline() {
     promise.catch((error) => {
       setError(true);
       setLoading(false);
-      console.log(error.message);
-    });
-
-    const promiseHashtag = requestHashtagsApi.getHashtags();
-    promiseHashtag.then((response) => {
-      setHashtags(response.data);
-      //setLoading(false);
-    });
-    promiseHashtag.catch((error) => {
-      //setLoading(false);
       console.log(error.message);
     });
 
