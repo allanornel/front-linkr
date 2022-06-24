@@ -50,6 +50,10 @@ function PageContainer({ title, picture, children, follow, changeStateButton, fo
 export default PageContainer;
 
 const Div = styled.div`
+	@media (max-width: 620px) {
+		margin-top: 130px;
+	}
+
 	@media (min-width: 620px) {
 		display: flex;
 		flex-direction: column;
