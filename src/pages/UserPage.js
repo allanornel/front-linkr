@@ -13,7 +13,7 @@ import InfiniteScroll from "react-infinite-scroller";
 function Timeline() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([{ username: "" }]);
-  const [username, setUsername] = useState("");
+  const [profile, setProfile] = useState({username:"", picture:""});
   const [hashtags, setHashtags] = useState({});
   const [error, setError] = useState(false);
   const [updatePage, setUpdatePage] = useState(0);
@@ -48,7 +48,7 @@ function Timeline() {
     promise.then((response) => {
       const { data } = response;
       setData(data.posts);
-      setUsername(data.name);
+      setProfile({username: data.name, picture: data.picture});
       setLoading(false);
       setHasMore(true);
     });
@@ -90,7 +90,13 @@ function Timeline() {
 
   return (
     <>
-      <PageContainer title={`${username}'s posts`} follow={followParams} changeStateButton={setFolowParams} followParams={followParams}>
+      <PageContainer 
+        title={`${profile.username}'s posts`} 
+        picture={profile.picture} 
+        follow={followParams} 
+        changeStateButton={setFolowParams} 
+        followParams={followParams}
+        >
         {/* <Button /> */}
         <DivFlex>
           <div>

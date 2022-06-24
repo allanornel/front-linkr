@@ -10,7 +10,7 @@ import useAuth from "../hooks/useAuth";
 
 import requestFollow from '../services/api/follower'
 
-function PageContainer({ title, children, follow, changeStateButton, followParams }) {
+function PageContainer({ title, picture, children, follow, changeStateButton, followParams }) {
 	const [toggle, setToggle] = useState(false);
 	const [close, setClose] = useState(true);
 	const [disableButton, setDisableButton] = useState(false)
@@ -37,7 +37,18 @@ function PageContainer({ title, children, follow, changeStateButton, followParam
 					setToggle(false);
 					setClose(true)
 					}}>	
-					<PageTitle>{title} {follow?.show &&  <Button color={follow.following ? '#fff' : '#1877F2'} onClick={() => following(follow.from, follow.to)} disabled={disableButton}>{follow.following ? 'Unfollow' : 'Follow'}</Button>} </PageTitle>
+					<PageTitle>
+						{picture ? <img src={picture} alt="Imagem Usuário"/> : ""}
+						{title} 
+						{
+							follow?.show &&  <Button color={follow.following ? 
+								'#fff' 
+							: 
+								'#1877F2'} 
+							onClick={() => following(follow.from, follow.to)} 
+							disabled={disableButton}>{follow.following ? 'Unfollow' : 'Follow'}</Button>
+						} 
+					</PageTitle>
 					<Container>{children}</Container>
 				</Section>
 			</Div>
@@ -72,7 +83,7 @@ const Section = styled.section`
   .loader {
     display: flex;
     width: 100%;
-    height: 100px
+    height: 100px;
     justify-content: center;
     align-items: center;
     
