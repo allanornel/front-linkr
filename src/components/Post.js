@@ -114,7 +114,7 @@ export default function Post(props) {
     promise.catch((e) => {
       console.log(e.message);
     });
-  }, [props.updatePage]);
+  }, [props.updatePage, data.id]);
   return (
     <Div>
       {data.repost ? (

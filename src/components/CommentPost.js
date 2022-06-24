@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import useAuth from "../hooks/useAuth";
 import requestCommentApi from "./../services/api/comments";
@@ -9,6 +9,7 @@ import requestCommentApi from "./../services/api/comments";
 function CommentPost(props) {
   const { data, setUpdatePage } = props;
   const { token, image } = useAuth();
+  const { user, hashtag } = useParams();
 
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState({ comment: "" });
@@ -25,7 +26,7 @@ function CommentPost(props) {
     promise.catch((e) => {
       console.log(e.message);
     });
-  }, [update]);
+  }, [update, user, hashtag]);
 
   function postComment(e) {
     e.preventDefault();
