@@ -36,7 +36,15 @@ function PageContainer({ title, picture, children, follow, changeStateButton, fo
 					setToggle(false);
 					setClose(true)
 					}}>	
-					<PageTitle>{title} {follow?.show &&  <Button color={follow.following ? '#fff' : '#1877F2'} onClick={() => following(follow.from, follow.to)} disabled={disableButton}>{follow.following ? 'Unfollow' : 'Follow'}</Button>} </PageTitle>
+					<PageTitle>
+						{picture ? <img src={picture} alt="imagem usuário" /> : ""}
+						{title} 
+						{
+							follow?.show &&  <Button color={follow.following ? '#fff' : '#1877F2'} 
+							onClick={() => following(follow.from, follow.to)} disabled={disableButton}>
+							{follow.following ? 'Unfollow' : 'Follow'}</Button>
+						} 
+					</PageTitle>
 					<Container>
 						{children}
 						<BoxHashtag />
