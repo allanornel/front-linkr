@@ -37,7 +37,7 @@ const customStyles = {
 export default function Post(props) {
   const { token } = useAuth();
 
-  const { userId, data } = props;
+  const { user, data } = props;
 
   const ref = useRef(null);
   const inputRef = useRef(null);
@@ -115,14 +115,13 @@ export default function Post(props) {
       console.log(e.message);
     });
   }, [props.updatePage]);
-  console.log(data);
   return (
     <Div>
       {data.repost ? (
         <Retweet>
           <FaRetweet size={25} />
           <p>
-            Re-posted by <span>{data.shareUserId === userId ? "you" : data.shareUsername}</span>
+            Re-posted by <span>{data.shareUserId === user ? "you" : data.shareUsername}</span>
           </p>
         </Retweet>
       ) : (
