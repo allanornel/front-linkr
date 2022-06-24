@@ -6,7 +6,6 @@ import PageContainer from "./../components/PageContainer";
 import Post from "./../components/Post";
 import requestPostsApi from "./../services/api/posts";
 import requestFollower from "./../services/api/follower";
-import requestHashtagsApi from "../services/api/hashtags";
 import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroller";
 
@@ -14,7 +13,7 @@ function Timeline() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([{ username: "" }]);
   const [username, setUsername] = useState("");
-  const [hashtags, setHashtags] = useState({});
+  const [profile, setProfile] = useState({username:"", picture:""});
   const [error, setError] = useState(false);
   const [updatePage, setUpdatePage] = useState(0);
   const [followParams, setFolowParams] = useState({
@@ -48,23 +47,13 @@ function Timeline() {
     promise.then((response) => {
       const { data } = response;
       setData(data.posts);
-      setUsername(data.name);
+      setProfile({username: data.name, picture: data.picture});
       setLoading(false);
       setHasMore(true);
     });
     promise.catch((error) => {
       // setError(true);
       setLoading(false);
-      console.log(error.message);
-    });
-
-    const promiseHashtag = requestHashtagsApi.getHashtags();
-    promiseHashtag.then((response) => {
-      setHashtags(response.data);
-      //setLoading(false);
-    });
-    promiseHashtag.catch((error) => {
-      //setLoading(false);
       console.log(error.message);
     });
   }, [updatePage, user]);
@@ -90,7 +79,13 @@ function Timeline() {
 
   return (
     <>
-      <PageContainer title={`${username}'s posts`} follow={followParams} changeStateButton={setFolowParams} followParams={followParams}>
+      <PageContainer 
+        title={`${profile.username}'s posts`} 
+        picture={profile.picture} 
+        follow={followParams} 
+        changeStateButton={setFolowParams} 
+        followParams={followParams}
+        >
         {/* <Button /> */}
         <DivFlex>
           <div>
@@ -113,26 +108,6 @@ function Timeline() {
             )}
             </InfiniteScroll>
           </div>
-          <ContainerHashtag>
-            <div>
-              <h1>trending</h1>
-            </div>
-            {loading ? (
-              <p>Loading...</p>
-            ) : hashtags.length > 0 ? (
-              hashtags.map((hashtag) => (
-                <p
-                  onClick={() => {
-                    navigate(`/hashtag/${hashtag.name}`);
-                  }}
-                >
-                  # {hashtag.name}
-                </p>
-              ))
-            ) : (
-              <p>There are no hashtags yet</p>
-            )}
-          </ContainerHashtag>
         </DivFlex>
       </PageContainer>
     </>
@@ -143,45 +118,6 @@ export default Timeline;
 
 const DivFlex = styled.div`
   display: flex;
-`;
-
-const ContainerHashtag = styled.div`
-  margin-left: 25px;
-  width: 301px;
-  height: 406px;
-  background: #171717;
-  border-radius: 16px;
-  color: #ffffff;
-  font-style: normal;
-  font-weight: 700;
-
-  div {
-    padding-bottom: 12px;
-    margin-bottom: 22px;
-    border-bottom: 1px solid #484848;
-  }
-
-  h1 {
-    font-family: "Oswald";
-    font-size: 27px;
-    line-height: 40px;
-    margin-left: 16px;
-    margin-top: 8px;
-  }
-
-  p {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 19px;
-    line-height: 23px;
-    letter-spacing: 0.05em;
-    margin-left: 16px;
-  }
-
-  @media only screen and (max-width: 800px) {
-    display: none;
-  }
 `;
 
 const Button = styled.button`

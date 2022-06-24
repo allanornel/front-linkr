@@ -15,7 +15,6 @@ import styled from "styled-components";
 function Timeline() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [hashtags, setHashtags] = useState({});
   const [error, setError] = useState(false);
   const [updatePage, setUpdatePage] = useState(0);
   const [newPosts, setNewPosts] = useState(false);
@@ -70,18 +69,13 @@ function Timeline() {
 
   useInterval(async () => {
     try {
-      /*
-      if (limit < postsTotal) {
-        setHasMore(true);
-      }
-      */
       requestPostsApi.posts(token).then((response) => {
         let lastPostIndex = 0;
         const newPosts = response.data;
-
-        if (newPosts[0].id !== data[0].id) {
+        
+        if (newPosts.rows[0]?.id !== data[0].id ) {
           //search last equal post in data
-          lastPostIndex = newPosts.findIndex((post) => post.id === data[0].id);
+          lastPostIndex = newPosts.rows.findIndex((post) => post.id === data[0].id);
           setNewPostsTotal(lastPostIndex);
           setNewPosts(true);
         }
@@ -92,8 +86,6 @@ function Timeline() {
   }, 15000);
 
   async function handleUpdate() {
-    console.log("______________inside handle update_______________________");
-    console.log(limit);
     setHasMore(false);
 
     if (limit > postsTotal) {
@@ -101,12 +93,6 @@ function Timeline() {
     }
     setLimit(limit + 10);
     setUpdatePage(updatePage + 1);
-    /*
-      requestPostsApi.posts(token, limit + 10).then((response) => {
-        console.log(response.data)
-        setData([...data, ...response.data]);
-      });
-      */
   }
 
   return (
@@ -158,26 +144,6 @@ function Timeline() {
             {/* {!followeSomeone && <h4>You don't follow anyone yet. Search for new friends!</h4>} */}
 
           </div>
-          <ContainerHashtag>
-            <div>
-              <h1>trending</h1>
-            </div>
-            {loading ? (
-              <p>Loading...</p>
-            ) : hashtags.length > 0 ? (
-              hashtags.map((hashtag) => (
-                <p
-                  onClick={() => {
-                    navigate(`/hashtag/${hashtag.name}`);
-                  }}
-                >
-                  # {hashtag.name}
-                </p>
-              ))
-            ) : (
-              <p>There are no hashtags yet</p>
-            )}
-          </ContainerHashtag>
         </DivFlex>
       </PageContainer>
     </>
@@ -188,45 +154,6 @@ export default Timeline;
 
 const DivFlex = styled.div`
   display: flex;
-`;
-
-const ContainerHashtag = styled.div`
-  margin-left: 25px;
-  width: 301px;
-  height: 406px;
-  background: #171717;
-  border-radius: 16px;
-  color: #ffffff;
-  font-style: normal;
-  font-weight: 700;
-
-  div {
-    padding-bottom: 12px;
-    margin-bottom: 22px;
-    border-bottom: 1px solid #484848;
-  }
-
-  h1 {
-    font-family: "Oswald";
-    font-size: 27px;
-    line-height: 40px;
-    margin-left: 16px;
-    margin-top: 8px;
-  }
-
-  p {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 19px;
-    line-height: 23px;
-    letter-spacing: 0.05em;
-    margin-left: 16px;
-  }
-
-  @media only screen and (max-width: 800px) {
-    display: none;
-  }
 `;
 
 const BlueBox = styled.div`

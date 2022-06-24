@@ -4,13 +4,12 @@ import { useState } from "react";
 
 import Header from "./Header";
 import PageTitle from "./PageTitle";
+import BoxHashtag from "./BoxHashtag";
 
 import useAuth from "../hooks/useAuth";
-
-
 import requestFollow from '../services/api/follower'
 
-function PageContainer({ title, children, follow, changeStateButton, followParams }) {
+function PageContainer({ title, picture, children, follow, changeStateButton, followParams }) {
 	const [toggle, setToggle] = useState(false);
 	const [close, setClose] = useState(true);
 	const [disableButton, setDisableButton] = useState(false)
@@ -37,8 +36,19 @@ function PageContainer({ title, children, follow, changeStateButton, followParam
 					setToggle(false);
 					setClose(true)
 					}}>	
-					<PageTitle>{title} {follow?.show &&  <Button color={follow.following ? '#fff' : '#1877F2'} onClick={() => following(follow.from, follow.to)} disabled={disableButton}>{follow.following ? 'Unfollow' : 'Follow'}</Button>} </PageTitle>
-					<Container>{children}</Container>
+					<PageTitle>
+						{picture ? <img src={picture} alt="imagem usuário" /> : ""}
+						{title} 
+						{
+							follow?.show &&  <Button color={follow.following ? '#fff' : '#1877F2'} 
+							onClick={() => following(follow.from, follow.to)} disabled={disableButton}>
+							{follow.following ? 'Unfollow' : 'Follow'}</Button>
+						} 
+					</PageTitle>
+					<Container>
+						{children}
+						<BoxHashtag />
+					</Container>
 				</Section>
 			</Div>
 		</>
@@ -62,17 +72,11 @@ const Section = styled.section`
 		margin-top: 100px;
 		color: #ffffff;
 	}
-	@media (min-width: 800px) {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		width: 800px;
-	}
 
   .loader {
     display: flex;
     width: 100%;
-    height: 100px
+    height: 100px;
     justify-content: center;
     align-items: center;
     
@@ -89,8 +93,12 @@ const Section = styled.section`
 `;
 
 const Container = styled.div`
+	display: flex;
 	@media (min-width: 620px) {
 		margin: 43px auto 0px auto;
+	}
+	@media (min-width: 1100px) {
+		padding-right: 200px;
 	}
 `;
 
