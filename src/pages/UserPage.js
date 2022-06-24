@@ -13,7 +13,7 @@ function Timeline() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([{ username: "" }]);
   const [username, setUsername] = useState("");
-  const [profile, setProfile] = useState({username:"", picture:""});
+  const [profile, setProfile] = useState({ username: "", picture: "" });
   const [error, setError] = useState(false);
   const [updatePage, setUpdatePage] = useState(0);
   const [followParams, setFolowParams] = useState({
@@ -47,7 +47,7 @@ function Timeline() {
     promise.then((response) => {
       const { data } = response;
       setData(data.posts);
-      setProfile({username: data.name, picture: data.picture});
+      setProfile({ username: data.name, picture: data.picture });
       setLoading(false);
       setHasMore(true);
     });
@@ -64,48 +64,51 @@ function Timeline() {
       .then(({ data }) =>
         setFolowParams({ ...followParams, following: data.iFollow, show: userLogged.id !== parseInt(user), from: userLogged.id, to: user })
       );
-  }, []);
-
+  }, [user]);
 
   async function handleUpdate() {
     setHasMore(false);
-    
+
     if (limit > postsTotal) {
-      return; 
+      return;
     }
-    setLimit(limit + 10); 
-    setUpdatePage(updatePage + 1);  
+    setLimit(limit + 10);
+    setUpdatePage(updatePage + 1);
   }
 
   return (
     <>
-      <PageContainer 
-        title={`${profile.username}'s posts`} 
-        picture={profile.picture} 
-        follow={followParams} 
-        changeStateButton={setFolowParams} 
+      <PageContainer
+        title={`${profile.username}'s posts`}
+        picture={profile.picture}
+        follow={followParams}
+        changeStateButton={setFolowParams}
         followParams={followParams}
-        >
+      >
         {/* <Button /> */}
         <DivFlex>
           <div>
             <InfiniteScroll
-                pageStart={0}
-                loadMore={handleUpdate}
-                hasMore={hasMore}
-                loader={<div className="loader" key={0}><p>Loading ...</p></div>}
-                useWindow={true}
-                threshold={1}              
+              pageStart={0}
+              loadMore={handleUpdate}
+              hasMore={hasMore}
+              loader={
+                <div className="loader" key={0}>
+                  <p>Loading ...</p>
+                </div>
+              }
+              useWindow={true}
+              threshold={1}
             >
-            {loading ? (
-              <h4>Loading...</h4>
-            ) : error ? (
-              <h4>An error occured while trying to fetch the posts, please refresh the page</h4>
-            ) : data.length > 0 ? (
-              data.map((post) => <Post data={post} id={post.id} userId={post.idUser} setUpdatePage={setUpdatePage} />)
-            ) : (
-              <h4>There are no posts yet</h4>
-            )}
+              {loading ? (
+                <h4>Loading...</h4>
+              ) : error ? (
+                <h4>An error occured while trying to fetch the posts, please refresh the page</h4>
+              ) : data.length > 0 ? (
+                data.map((post) => <Post data={post} id={post.id} userId={post.idUser} setUpdatePage={setUpdatePage} />)
+              ) : (
+                <h4>There are no posts yet</h4>
+              )}
             </InfiniteScroll>
           </div>
         </DivFlex>
