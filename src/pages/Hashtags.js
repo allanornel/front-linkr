@@ -5,14 +5,10 @@ import PageContainer from "../components/PageContainer";
 import Post from "../components/Post";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import requestPostsApi from "./../services/api/posts";
 import InfiniteScroll from "react-infinite-scroller";
-// import requestHashtagsApi from "../services/api/hashtags";
 
 function HashtagPage() {
-  const navigate = useNavigate();
-  const [hashtags, setHashtags] = useState({});
   const [updatePage, setUpdatePage] = useState(0);
   const [postsList, setPostsList] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -30,9 +26,7 @@ function HashtagPage() {
     try {
       async function fetchData() {
         const postsResponse = await requestHashtagsApi.getPostsByHashtag(hashtag, limit);
-        const hashtagsResponse = await requestHashtagsApi.getHashtags();
         setPostsList(postsResponse.data);
-        setHashtags(hashtagsResponse.data);
         setHasMore(true);
       }
 
@@ -54,7 +48,7 @@ function HashtagPage() {
 
 
   return (
-    <PageContainer title={hashtag}>
+    <PageContainer title={`# ${hashtag}`}>
       <DivFlex>
         <div>
           <InfiniteScroll
@@ -72,73 +66,15 @@ function HashtagPage() {
           )}
         </InfiniteScroll>
         </div>
-        <ContainerHashtag>
-          <div>
-            <h1>trending</h1>
-          </div>
-
-          {hashtags.length > 0 ? (
-            hashtags.map((hashtag, key) => (
-              <p
-                key={key}
-                onClick={() => {
-                  navigate(`/hashtag/${hashtag.name}`);
-                }}
-              >
-                {" "}
-                # {hashtag.name}
-              </p>
-            ))
-          ) : (
-            <p>There are no hashtags yet</p>
-          )}
-        </ContainerHashtag>
       </DivFlex>
     </PageContainer>
   );
 }
 
 export default HashtagPage;
+
 const DivFlex = styled.div`
   display: flex;
   width: 100%;
 `;
 
-const ContainerHashtag = styled.div`
-  margin-left: 25px;
-  width: 301px;
-  height: 406px;
-  background: #171717;
-  border-radius: 16px;
-  color: #ffffff;
-  font-style: normal;
-  font-weight: 700;
-
-  div {
-    padding-bottom: 12px;
-    margin-bottom: 22px;
-    border-bottom: 1px solid #484848;
-  }
-
-  h1 {
-    font-family: "Oswald";
-    font-size: 27px;
-    line-height: 40px;
-    margin-left: 16px;
-    margin-top: 8px;
-  }
-
-  p {
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 19px;
-    line-height: 23px;
-    letter-spacing: 0.05em;
-    margin-left: 16px;
-  }
-
-  @media only screen and (max-width: 1000px) {
-    display: none;
-  }
-`;

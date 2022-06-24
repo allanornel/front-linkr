@@ -4,10 +4,9 @@ import { useState } from "react";
 
 import Header from "./Header";
 import PageTitle from "./PageTitle";
+import BoxHashtag from "./BoxHashtag";
 
 import useAuth from "../hooks/useAuth";
-
-
 import requestFollow from '../services/api/follower'
 
 function PageContainer({ title, children, follow, changeStateButton, followParams }) {
@@ -38,7 +37,10 @@ function PageContainer({ title, children, follow, changeStateButton, followParam
 					setClose(true)
 					}}>	
 					<PageTitle>{title} {follow?.show &&  <Button color={follow.following ? '#fff' : '#1877F2'} onClick={() => following(follow.from, follow.to)} disabled={disableButton}>{follow.following ? 'Unfollow' : 'Follow'}</Button>} </PageTitle>
-					<Container>{children}</Container>
+					<Container>
+						{children}
+						<BoxHashtag />
+					</Container>
 				</Section>
 			</Div>
 		</>
@@ -89,6 +91,7 @@ const Section = styled.section`
 `;
 
 const Container = styled.div`
+	display: flex;
 	@media (min-width: 620px) {
 		margin: 43px auto 0px auto;
 	}
