@@ -50,7 +50,8 @@ function BoxHashtag(){
 export default BoxHashtag;
 
 const ContainerHashtag = styled.div`
-  margin-left: 25px;
+  position: fixed;
+  margin-left: 630px;
   width: 301px;
   height: 406px;
   background: #171717;
@@ -83,7 +84,7 @@ const ContainerHashtag = styled.div`
     margin-left: 16px;
   }
 
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 1100px) {
     display: none;
   }
 `;

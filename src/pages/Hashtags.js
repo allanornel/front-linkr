@@ -75,6 +75,5 @@ export default HashtagPage;
 
 const DivFlex = styled.div`
   display: flex;
-  width: 100%;
 `;
 

@@ -64,12 +64,6 @@ const Section = styled.section`
 		margin-top: 100px;
 		color: #ffffff;
 	}
-	@media (min-width: 800px) {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		width: 800px;
-	}
 
   .loader {
     display: flex;
@@ -94,6 +88,9 @@ const Container = styled.div`
 	display: flex;
 	@media (min-width: 620px) {
 		margin: 43px auto 0px auto;
+	}
+	@media (min-width: 1100px) {
+		padding-right: 200px;
 	}
 `;
 
