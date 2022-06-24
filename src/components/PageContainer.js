@@ -72,7 +72,7 @@ const Section = styled.section`
   .loader {
     display: flex;
     width: 100%;
-    height: 100px
+    height: 100px;
     justify-content: center;
     align-items: center;
     

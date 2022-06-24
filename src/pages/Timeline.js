@@ -72,10 +72,10 @@ function Timeline() {
       requestPostsApi.posts(token).then((response) => {
         let lastPostIndex = 0;
         const newPosts = response.data;
-
-        if (newPosts[0].id !== data[0].id) {
+        
+        if (newPosts.rows[0]?.id !== data[0].id ) {
           //search last equal post in data
-          lastPostIndex = newPosts.findIndex((post) => post.id === data[0].id);
+          lastPostIndex = newPosts.rows.findIndex((post) => post.id === data[0].id);
           setNewPostsTotal(lastPostIndex);
           setNewPosts(true);
         }
